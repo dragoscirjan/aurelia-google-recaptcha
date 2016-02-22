@@ -44,12 +44,39 @@
   },
   "jspm": {
     "registry": "npm",
-    "jspmPackage": true,
     "main": "index",
     "format": "amd",
     "directories": {
       "dist": "dist/amd"
     },
-    "peerDependencies": {}
+    "dependencies": {
+      "aurelia-framework": "1.0.0-beta.1.0.8"
+    },
+    "devDependencies": {
+      "aurelia-tools": "^0.1.3",
+      "babel": "babel-core@^5.8.24",
+      "babel-eslint": "^4.1.3",
+      "babel-runtime": "^5.8.24",
+      "conventional-changelog": "0.0.11",
+      "core-js": "^1.1.4",
+      "del": "^1.1.0",
+      "gulp": "^3.8.10",
+      "gulp-babel": "^5.1.0",
+      "gulp-bump": "^0.1.11",
+      "gulp-eslint": "^1.0.0",
+      "gulp-yuidoc": "^0.1.2",
+      "jasmine-core": "^2.1.3",
+      "karma": "^0.12.28",
+      "karma-babel-preprocessor": "^5.2.1",
+      "karma-chrome-launcher": "^0.1.7",
+      "karma-coverage": "^0.3.1",
+      "karma-jasmine": "^0.3.5",
+      "karma-jspm": "^2.0.1-beta.2",
+      "object.assign": "^1.0.3",
+      "require-dir": "^0.1.0",
+      "run-sequence": "^1.0.2",
+      "vinyl-paths": "^1.0.0",
+      "yargs": "^2.1.1"
+    }
   }
 }
