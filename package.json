@@ -45,7 +45,7 @@
   "jspm": {
     "registry": "npm",
     "main": "index",
-    "format": "amd",
+    "format": "es6",
     "directories": {
       "dist": "dist/amd"
     },
