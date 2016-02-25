@@ -51,6 +51,7 @@ export class Recaptcha {
      * @return {this}
      */
     constructor(element) {
+      console.log(element);
         this.element = element;
     }
 
