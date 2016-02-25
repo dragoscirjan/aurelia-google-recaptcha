@@ -13,7 +13,7 @@ System.config({
   },
 
   map: {
-    "aurelia-framework": "npm:aurelia-framework@1.0.0-beta.1.1.1",
+    "aurelia-framework": "npm:aurelia-framework@1.0.0-beta.1.1.3",
     "aurelia-tools": "npm:aurelia-tools@0.1.18",
     "babel": "npm:babel-core@5.8.35",
     "babel-eslint": "npm:babel-eslint@4.1.8",
@@ -214,7 +214,7 @@ System.config({
       "aurelia-pal": "npm:aurelia-pal@1.0.0-beta.1.1.1",
       "core-js": "npm:core-js@2.1.1"
     },
-    "npm:aurelia-framework@1.0.0-beta.1.1.1": {
+    "npm:aurelia-framework@1.0.0-beta.1.1.3": {
       "aurelia-binding": "npm:aurelia-binding@1.0.0-beta.1.1.3",
       "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.0.0-beta.1.1.3",
       "aurelia-loader": "npm:aurelia-loader@1.0.0-beta.1.1.1",
@@ -458,7 +458,7 @@ System.config({
       "async-each": "npm:async-each@0.1.6",
       "events": "github:jspm/nodelibs-events@0.1.1",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
-      "fsevents": "npm:fsevents@1.0.7",
+      "fsevents": "npm:fsevents@1.0.8",
       "glob-parent": "npm:glob-parent@2.0.0",
       "inherits": "npm:inherits@2.0.1",
       "is-binary-path": "npm:is-binary-path@1.0.1",
@@ -908,7 +908,7 @@ System.config({
       "globals": "npm:globals@8.18.0",
       "handlebars": "npm:handlebars@4.0.5",
       "inquirer": "npm:inquirer@0.11.4",
-      "is-my-json-valid": "npm:is-my-json-valid@2.13.0",
+      "is-my-json-valid": "npm:is-my-json-valid@2.13.1",
       "is-resolvable": "npm:is-resolvable@1.0.0",
       "js-yaml": "npm:js-yaml@3.4.5",
       "json-stable-stringify": "npm:json-stable-stringify@1.0.1",
@@ -1135,7 +1135,7 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "stream": "github:jspm/nodelibs-stream@0.1.0"
     },
-    "npm:fsevents@1.0.7": {
+    "npm:fsevents@1.0.8": {
       "events": "github:jspm/nodelibs-events@0.1.1",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "nan": "npm:nan@2.2.0",
@@ -1607,7 +1607,7 @@ System.config({
     "npm:is-glob@2.0.1": {
       "is-extglob": "npm:is-extglob@1.0.0"
     },
-    "npm:is-my-json-valid@2.13.0": {
+    "npm:is-my-json-valid@2.13.1": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "generate-function": "npm:generate-function@2.0.0",
       "generate-object-property": "npm:generate-object-property@1.2.0",
@@ -2750,7 +2750,7 @@ System.config({
     "npm:stream-browserify@1.0.0": {
       "events": "github:jspm/nodelibs-events@0.1.1",
       "inherits": "npm:inherits@2.0.1",
-      "readable-stream": "npm:readable-stream@1.1.13"
+      "readable-stream": "npm:readable-stream@1.0.33"
     },
     "npm:stream-combiner@0.0.4": {
       "duplexer": "npm:duplexer@0.1.1"
