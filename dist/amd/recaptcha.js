@@ -99,7 +99,6 @@ define(['exports', 'aurelia-framework'], function (exports, _aureliaFramework) {
 
       _defineDecoratedPropertyDescriptor(this, 'sitekey', _instanceInitializers);
 
-      console.log(element);
       this.element = element;
     }
 

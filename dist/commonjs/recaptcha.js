@@ -100,7 +100,6 @@ var Recaptcha = (function () {
 
     _defineDecoratedPropertyDescriptor(this, 'sitekey', _instanceInitializers);
 
-    console.log(element);
     this.element = element;
   }
 

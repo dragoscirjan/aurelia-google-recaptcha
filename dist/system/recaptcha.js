@@ -104,7 +104,6 @@ System.register(['aurelia-framework'], function (_export) {
 
           _defineDecoratedPropertyDescriptor(this, 'sitekey', _instanceInitializers);
 
-          console.log(element);
           this.element = element;
         }
 
