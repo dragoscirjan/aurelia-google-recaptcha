@@ -10,7 +10,7 @@
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
-    value: true
+  value: true
 });
 
 var _createDecoratedClass = (function () { function defineProperties(target, descriptors, initializers) { for (var i = 0; i < descriptors.length; i++) { var descriptor = descriptors[i]; var decorators = descriptor.decorators; var key = descriptor.key; delete descriptor.key; delete descriptor.decorators; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor || descriptor.initializer) descriptor.writable = true; if (decorators) { for (var f = 0; f < decorators.length; f++) { var decorator = decorators[f]; if (typeof decorator === 'function') { descriptor = decorator(target, key, descriptor) || descriptor; } else { throw new TypeError('The decorator for method ' + descriptor.key + ' is of the invalid type ' + typeof decorator); } } if (descriptor.initializer !== undefined) { initializers[key] = descriptor; continue; } } Object.defineProperty(target, key, descriptor); } } return function (Constructor, protoProps, staticProps, protoInitializers, staticInitializers) { if (protoProps) defineProperties(Constructor.prototype, protoProps, protoInitializers); if (staticProps) defineProperties(Constructor, staticProps, staticInitializers); return Constructor; }; })();
@@ -23,62 +23,110 @@ var _aureliaFramework = require('aurelia-framework');
 
 var recaptchaCallbackName = 'setRecaptchaReady';
 var ready = new Promise(function (resolve) {
-    return window[recaptchaCallbackName] = resolve;
+  return window[recaptchaCallbackName] = resolve;
 });
 
 var script = document.createElement('script');
-script.src = 'https://www.google.com/recaptcha/api.js?onload=' + recaptchaCallbackName + '&render=explicit';
+script.src = 'https://www.google.com/recaptcha/api.js?onload=' + recaptchaCallbackName + '&render=explicit&hl=' + (document.getElementsByTagName('html')[0].getAttribute('lang') || 'en');
 script.async = true;
 script.defer = true;
 document.head.appendChild(script);
 
 var Recaptcha = (function () {
-    var _instanceInitializers = {};
-    var _instanceInitializers = {};
+  var _instanceInitializers = {};
+  var _instanceInitializers = {};
 
-    _createDecoratedClass(Recaptcha, [{
-        key: 'verified',
-        decorators: [_aureliaFramework.bindable],
-        initializer: null,
-        enumerable: true
-    }, {
-        key: 'theme',
-        decorators: [_aureliaFramework.bindable],
-        initializer: function initializer() {
-            return 'light';
-        },
-        enumerable: true
-    }], null, _instanceInitializers);
+  _createDecoratedClass(Recaptcha, [{
+    key: 'callback',
+    decorators: [_aureliaFramework.bindable],
+    initializer: null,
+    enumerable: true
+  }, {
+    key: 'expiredCallback',
+    decorators: [_aureliaFramework.bindable],
+    initializer: null,
+    enumerable: true
+  }, {
+    key: 'size',
+    decorators: [_aureliaFramework.bindable],
+    initializer: function initializer() {
+      return 'normal';
+    },
+    enumerable: true
+  }, {
+    key: 'tabindex',
+    decorators: [_aureliaFramework.bindable],
+    initializer: function initializer() {
+      return 0;
+    },
+    enumerable: true
+  }, {
+    key: 'theme',
+    decorators: [_aureliaFramework.bindable],
+    initializer: function initializer() {
+      return 'light';
+    },
+    enumerable: true
+  }, {
+    key: 'type',
+    decorators: [_aureliaFramework.bindable],
+    initializer: function initializer() {
+      return 'image';
+    },
+    enumerable: true
+  }, {
+    key: 'sitekey',
+    decorators: [_aureliaFramework.bindable],
+    initializer: function initializer() {
+      return '';
+    },
+    enumerable: true
+  }], null, _instanceInitializers);
 
-    function Recaptcha(element) {
-        _classCallCheck(this, _Recaptcha);
+  function Recaptcha(element) {
+    _classCallCheck(this, _Recaptcha);
 
-        _defineDecoratedPropertyDescriptor(this, 'verified', _instanceInitializers);
+    _defineDecoratedPropertyDescriptor(this, 'callback', _instanceInitializers);
 
-        _defineDecoratedPropertyDescriptor(this, 'theme', _instanceInitializers);
+    _defineDecoratedPropertyDescriptor(this, 'expiredCallback', _instanceInitializers);
 
-        this.element = element;
+    _defineDecoratedPropertyDescriptor(this, 'size', _instanceInitializers);
+
+    _defineDecoratedPropertyDescriptor(this, 'tabindex', _instanceInitializers);
+
+    _defineDecoratedPropertyDescriptor(this, 'theme', _instanceInitializers);
+
+    _defineDecoratedPropertyDescriptor(this, 'type', _instanceInitializers);
+
+    _defineDecoratedPropertyDescriptor(this, 'sitekey', _instanceInitializers);
+
+    console.log(element);
+    this.element = element;
+  }
+
+  _createDecoratedClass(Recaptcha, [{
+    key: 'attached',
+    value: function attached() {
+      var _this = this;
+
+      ready.then(function () {
+        grecaptcha.render(_this.element, {
+          callback: _this.callback,
+          'expired-callback': _this.expiredCallback,
+          sitekey: _this.sitekey,
+          size: _this.size,
+          tabindex: _this.tabindex,
+          theme: _this.theme,
+          type: _this.type
+        });
+      });
     }
+  }], null, _instanceInitializers);
 
-    _createDecoratedClass(Recaptcha, [{
-        key: 'attached',
-        value: function attached() {
-            var _this = this;
-
-            ready.then(function () {
-                return grecaptcha.render(_this.element, {
-                    sitekey: _this.sitekey,
-                    theme: _this.theme,
-                    callback: _this.verified
-                });
-            });
-        }
-    }], null, _instanceInitializers);
-
-    var _Recaptcha = Recaptcha;
-    Recaptcha = (0, _aureliaFramework.inject)(Element)(Recaptcha) || Recaptcha;
-    Recaptcha = (0, _aureliaFramework.noView)()(Recaptcha) || Recaptcha;
-    return Recaptcha;
+  var _Recaptcha = Recaptcha;
+  Recaptcha = (0, _aureliaFramework.inject)(Element)(Recaptcha) || Recaptcha;
+  Recaptcha = (0, _aureliaFramework.noView)()(Recaptcha) || Recaptcha;
+  return Recaptcha;
 })();
 
 exports.Recaptcha = Recaptcha;
