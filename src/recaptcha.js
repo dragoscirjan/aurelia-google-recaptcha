@@ -61,8 +61,8 @@ export class Recaptcha {
     attached() {
         ready.then(() => {
             grecaptcha.render(this.element, {
-                callback: this.callback,
-                'expired-callback': this.expiredCallback,
+                callback: (typeof this.callback === 'string') ? window[this.callback] : this.callback,
+                'expired-callback': (typeof this.expiredCallback === 'string') ? window[this.expiredCallback] : this.expiredCallback,
                 sitekey: this.sitekey,
                 size: this.size,
                 tabindex: this.tabindex,
