@@ -114,8 +114,8 @@ System.register(['aurelia-framework'], function (_export) {
 
             ready.then(function () {
               grecaptcha.render(_this.element, {
-                callback: _this.callback,
-                'expired-callback': _this.expiredCallback,
+                callback: typeof _this.callback === 'string' ? window[_this.callback] : _this.callback,
+                'expired-callback': typeof _this.expiredCallback === 'string' ? window[_this.expiredCallback] : _this.expiredCallback,
                 sitekey: _this.sitekey,
                 size: _this.size,
                 tabindex: _this.tabindex,
