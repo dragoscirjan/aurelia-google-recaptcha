@@ -60,9 +60,22 @@ export class Recaptcha {
      */
     attached() {
         ready.then(() => {
+            let self = this;
             grecaptcha.render(this.element, {
-                callback: (typeof this.callback === 'string') ? window[this.callback] : this.callback,
-                'expired-callback': (typeof this.expiredCallback === 'string') ? window[this.expiredCallback] : this.expiredCallback,
+                callback: (typeof this.callback === 'string') ? (result) => {
+                    if (window[self.callback]) {
+                        window[self.callback].call(grecaptcha, result);
+                        return;
+                    }
+                    throw new Error(`callback '${self.callback}' does not exists`);
+                } : this.callback,
+                'expired-callback': (typeof this.expiredCallback === 'string') ? (result) => {
+                    if (window[self.expiredCallback]) {
+                        window[self.expiredCallback].call(grecaptcha, result);
+                        return;
+                    }
+                    throw new Error(`callback '${self.expiredCallback}' does not exists`);
+                } : this.expiredCallback,
                 sitekey: this.sitekey,
                 size: this.size,
                 tabindex: this.tabindex,
