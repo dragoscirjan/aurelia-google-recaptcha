@@ -37,6 +37,7 @@ In `src/component.html` use
 
 In `src/component.js` use
 
+```javascript
 export class Component {
 
     /**
@@ -58,6 +59,7 @@ export class Component {
         // your recaptcha result here
     }
 }
+```
 
 #### Recaptcha variables
 
