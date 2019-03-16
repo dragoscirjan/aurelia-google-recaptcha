@@ -1,14 +1,14 @@
-System.register([], function (_export) {
-    'use strict';
+System.register([], function(_export) {
+  'use strict';
 
-    _export('configure', configure);
+  _export('configure', configure);
 
-    function configure(config) {
-        config.globalResources('./recaptcha');
-    }
+  function configure(config) {
+    config.globalResources('./recaptcha');
+  }
 
-    return {
-        setters: [],
-        execute: function () {}
-    };
+  return {
+    setters: [],
+    execute: function() {}
+  };
 });

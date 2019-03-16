@@ -7,10 +7,10 @@
  * @license   https://github.com/ITMCdev/aurelia-google-recaptcha/blob/master/LICENSE MIT License
  */
 
-import {inject, noView, bindable} from 'aurelia-framework';
+import { inject, noView, bindable } from 'aurelia-framework';
 
 const recaptchaCallbackName = 'setRecaptchaReady';
-const ready = new Promise(resolve => window[recaptchaCallbackName] = resolve);
+const ready = new Promise(resolve => (window[recaptchaCallbackName] = resolve));
 
 /**
  * Google Recaptcha Script
@@ -18,7 +18,9 @@ const ready = new Promise(resolve => window[recaptchaCallbackName] = resolve);
  * @link https://developers.google.com/recaptcha/docs/display
  */
 let script = document.createElement('script');
-script.src = `https://www.google.com/recaptcha/api.js?onload=${recaptchaCallbackName}&render=explicit&hl=${document.getElementsByTagName('html')[0].getAttribute('lang') || 'en'}`;
+script.src = `https://www.google.com/recaptcha/api.js?onload=${recaptchaCallbackName}&render=explicit&hl=${document
+  .getElementsByTagName('html')[0]
+  .getAttribute('lang') || 'en'}`;
 script.async = true;
 script.defer = true;
 document.head.appendChild(script);
@@ -36,52 +38,58 @@ document.head.appendChild(script);
 @noView()
 @inject(Element)
 export class Recaptcha {
-    @bindable callback;
-    @bindable expiredCallback;
-    @bindable size = 'normal';
-    @bindable tabindex = 0;
-    @bindable theme = 'light';
-    @bindable type = 'image';
-    @bindable sitekey = '';
+  @bindable callback;
+  @bindable expiredCallback;
+  @bindable size = 'normal';
+  @bindable tabindex = 0;
+  @bindable theme = 'light';
+  @bindable type = 'image';
+  @bindable sitekey = '';
 
-    /**
-     * [constructor description]
-     * @method constructor
-     * @param  {DocumentElement}    element Element to render recaptcha
-     * @return {this}
-     */
-    constructor(element) {
-        this.element = element;
-    }
+  /**
+   * [constructor description]
+   * @method constructor
+   * @param  {DocumentElement}    element Element to render recaptcha
+   * @return {this}
+   */
+  constructor(element) {
+    this.element = element;
+  }
 
-    /**
-     * Attached event (see Aurelia Component Documentation)
-     * @method attached
-     */
-    attached() {
-        ready.then(() => {
-            let self = this;
-            grecaptcha.render(this.element, {
-                callback: (typeof this.callback === 'string') ? (result) => {
-                    if (window[self.callback]) {
-                        window[self.callback].call(grecaptcha, result);
-                        return;
-                    }
-                    throw new Error(`callback '${self.callback}' does not exists`);
-                } : this.callback,
-                'expired-callback': (typeof this.expiredCallback === 'string') ? (result) => {
-                    if (window[self.expiredCallback]) {
-                        window[self.expiredCallback].call(grecaptcha, result);
-                        return;
-                    }
-                    throw new Error(`callback '${self.expiredCallback}' does not exists`);
-                } : this.expiredCallback,
-                sitekey: this.sitekey,
-                size: this.size,
-                tabindex: this.tabindex,
-                theme: this.theme,
-                type: this.type
-            });
-        });
-    }
+  /**
+   * Attached event (see Aurelia Component Documentation)
+   * @method attached
+   */
+  attached() {
+    ready.then(() => {
+      let self = this;
+      grecaptcha.render(this.element, {
+        callback:
+          typeof this.callback === 'string'
+            ? result => {
+                if (window[self.callback]) {
+                  window[self.callback].call(grecaptcha, result);
+                  return;
+                }
+                throw new Error(`callback '${self.callback}' does not exists`);
+              }
+            : this.callback,
+        'expired-callback':
+          typeof this.expiredCallback === 'string'
+            ? result => {
+                if (window[self.expiredCallback]) {
+                  window[self.expiredCallback].call(grecaptcha, result);
+                  return;
+                }
+                throw new Error(`callback '${self.expiredCallback}' does not exists`);
+              }
+            : this.expiredCallback,
+        sitekey: this.sitekey,
+        size: this.size,
+        tabindex: this.tabindex,
+        theme: this.theme,
+        type: this.type
+      });
+    });
+  }
 }

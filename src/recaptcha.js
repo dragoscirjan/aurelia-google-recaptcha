@@ -7,21 +7,10 @@
  * @license   https://github.com/ITMCdev/aurelia-google-recaptcha/blob/master/LICENSE MIT License
  */
 
-import {inject, noView, bindable} from 'aurelia-framework';
+import { bindable, customElement } from 'aurelia-framework';
+import parseDuration from 'parse-duration';
 
-const recaptchaCallbackName = 'setRecaptchaReady';
-const ready = new Promise(resolve => window[recaptchaCallbackName] = resolve);
-
-/**
- * Google Recaptcha Script
- * @var {DocumentElement}
- * @link https://developers.google.com/recaptcha/docs/display
- */
-let script = document.createElement('script');
-script.src = `https://www.google.com/recaptcha/api.js?onload=${recaptchaCallbackName}&render=explicit&hl=${document.getElementsByTagName('html')[0].getAttribute('lang') || 'en'}`;
-script.async = true;
-script.defer = true;
-document.head.appendChild(script);
+import { GR, RecaptchaBase } from './recaptcha-base';
 
 /**
  * Google Recaptcha plugin, originally developed by Jeremy Danyow (http://stackoverflow.com/users/725866/jeremy-danyow)
@@ -29,59 +18,77 @@ document.head.appendChild(script);
  *
  * @link http://stackoverflow.com/questions/35441787/use-googles-recaptcha-in-an-aurelia-application
  * @link http://plnkr.co/edit/rXqNdh?p=info
+ * @link https://developers.google.com/recaptcha/docs/v3
  *
  * @method noView
  * @method inject
  */
-@noView()
-@inject(Element)
-export class Recaptcha {
-    @bindable callback;
-    @bindable expiredCallback;
-    @bindable size = 'normal';
-    @bindable tabindex = 0;
-    @bindable theme = 'light';
-    @bindable type = 'image';
-    @bindable sitekey = '';
+@customElement('recaptcha')
+export class Recaptcha extends RecaptchaBase {
+  /**
+   * @var {String}
+   * Values:
+   * * homepage 	  See a cohesive view of your traffic on the admin console while filtering scrapers.
+   * * login 	      With low scores, require 2-factor-authentication or email verification to prevent credential stuffing attacks.
+   * * social 	    Limit unanswered friend requests from abusive users and send risky comments to moderation.
+   * * e-commerce 	Put your real sales ahead of bots and identify risky transactions.
+   * Note: actions may only contain alphanumeric characters and slashes, and must not be user-specific.
+   */
+  @bindable action = 'homepage';
 
-    /**
-     * [constructor description]
-     * @method constructor
-     * @param  {DocumentElement}    element Element to render recaptcha
-     * @return {this}
-     */
-    constructor(element) {
-        this.element = element;
-    }
+  /** @var {Boolean} Optional. Trigger an auto-validate loop interval, keeping the recaptcha validated. */
+  @bindable expires = '1m';
 
-    /**
-     * Attached event (see Aurelia Component Documentation)
-     * @method attached
-     */
-    attached() {
-        ready.then(() => {
-            let self = this;
-            grecaptcha.render(this.element, {
-                callback: (typeof this.callback === 'string') ? (result) => {
-                    if (window[self.callback]) {
-                        window[self.callback].call(grecaptcha, result);
-                        return;
-                    }
-                    throw new Error(`callback '${self.callback}' does not exists`);
-                } : this.callback,
-                'expired-callback': (typeof this.expiredCallback === 'string') ? (result) => {
-                    if (window[self.expiredCallback]) {
-                        window[self.expiredCallback].call(grecaptcha, result);
-                        return;
-                    }
-                    throw new Error(`callback '${self.expiredCallback}' does not exists`);
-                } : this.expiredCallback,
-                sitekey: this.sitekey,
-                size: this.size,
-                tabindex: this.tabindex,
-                theme: this.theme,
-                type: this.type
-            });
-        });
+  /**
+   * Component Bind Event
+   */
+  bind() {
+    super.bind && super.bind();
+
+    this.loadScript(this.getScriptId(), `https://www.google.com/recaptcha/api.js?render=${this.sitekey}`);
+
+    this.registerExecuteEvent();
+  }
+
+  /**
+   * Component Attached Event
+   */
+  attached() {
+    super.attached && super.attached();
+
+    this.registerExecuteWatcher();
+    this.registerExpireWatcher();
+  }
+
+  /**
+   * Create a watcher to invalidate recaptcha token based on `expires` time limit.
+   */
+  registerExpireWatcher() {
+    const eventName = `grecaptcha:expire:${this.id}`;
+    this.__watchers__[eventName] = setInterval(() => {
+      if (this.lastCheck && new Date().getTime() - this.lastCheck.getTime() > this.parsedExpires) {
+        this.value = null;
+      }
+    }, 1000);
+  }
+
+  /**
+   * @returns {Number} Parsed duration in miliseconds.
+   */
+  get parsedExpires() {
+    return parseDuration(this.expires);
+  }
+
+  /**
+   * Call recaptcha.execute
+   */
+  recaptchaExecute() {
+    if (typeof window[GR] === undefined || !grecaptcha.execute) {
+      return;
     }
+    grecaptcha.execute(this.sitekey, { action: this.action }).then(token => {
+      this.value = token;
+      this.lastCheck = new Date();
+    });
+  }
 }
