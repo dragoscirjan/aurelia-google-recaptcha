@@ -40,7 +40,9 @@ Plugin is inspired by [Jeremy Danyow](http://stackoverflow.com/users/725866/jere
         - [V3](#v3)
             - [Additional Options](#additional-options-2)
             - [Events](#events-2)
+    - [Development](#development)
     - [Issues](#issues)
+    - [License](#license)
 
 <!-- /TOC -->
 
@@ -308,6 +310,34 @@ export class Component {
 }
 ```
 
+## Development
+
+Fork the repo then clone it
+
+`$ git clone git@github.com:dragoscirjan/aurelia-google-recaptcha-dev.git && cd aurelia-google-recaptcha`
+
+`yarn global add gulp-cli` (or `$ npm install --global gulp-cli`): Install Gulp cli tool.
+
+`$ yarn` (or `$ npm i`): Install the dependencies;
+
+`$ yarn build` (or `$ npm run build`): Build to production;
+
+`$ yarn dev`: Run the docz to see your changes;
+
+> NOTE: Momentarely I do not use the testing environment. I'm using [this project](https://github.com/dragoscirjan/aurelia-plugins-dev) to develop. You're all invited to help with the unit tests, if you wish to.
+
+`$ yarn test`: Run all tests: type checking and unit tests;
+
+`$ yarn test:watch`: Watch unit tests;
+
+`$ yarn tsc`: Typescript checking;
+
+`$ yarn tsc:watch`: Typescript checking with watching;
+
 ## Issues
 
 For issues, please reffer to this repository's [issue page](https://github.com/dragoscirjan/aurelia-google-recaptcha/issues).
+
+## License
+
+[MIT](https://github.com/dragoscirjan/aurelia-content-loader/blob/master/LICENSE)
