@@ -14,9 +14,9 @@ commands:
       #       - v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-cache-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}
       #       - v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-cache-master-{{ .Environment.CIRCLE_JOB }}
       - run: npm install
-      - run: npm install -D gulp-cli
+      # - run: npm install -D gulp-cli
       - run: ls
-      - run: npm run ./node_modules/.bin/gulp lint
+      - run: ./node_modules/.bin/gulp lint
       # - run: ./node_modules/.bin/gulp
       # - run: ./node_modules/.bin/gulp test
       - save-npm-cache
