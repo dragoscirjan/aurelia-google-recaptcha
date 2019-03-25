@@ -23,7 +23,24 @@ Plugin is inspired by [Jeremy Danyow](http://stackoverflow.com/users/725866/jere
 
 ## Index
 
-- [Aurelia Google Recaptcha](#aurelia-google-recaptcha)
+<!-- TOC -->
+
+- [Google Recaptcha plugin for Aurelia Framework](#google-recaptcha-plugin-for-aurelia-framework)
+    - [Index](#index)
+    - [Getting Started](#getting-started)
+    - [Usage](#usage)
+    - [Options](#options)
+    - [Component](#component)
+        - [V2 (Checkbox)](#v2-checkbox)
+            - [Additional Options](#additional-options)
+            - [Events](#events)
+        - [V2 (Invisible)](#v2-invisible)
+            - [Additional Options](#additional-options-1)
+            - [Events](#events-1)
+    - [Recaptcha variables](#recaptcha-variables)
+    - [Issues](#issues)
+
+<!-- /TOC -->
 
 ## Getting Started
 
@@ -86,13 +103,12 @@ In `src/component.html` use
 ></recaptcha-v2>
 <button click.trigger="customReset()">Reset</button>
 
-<!-- If interested in a custom callback --
+<!-- If interested in a custom callback -->
 <recaptcha-v2
     sitekey="YOUR_SITE_KEY"
     value.bind="recaptchaToken"
     callback="customCallback"
-></recaptcha-v2> 
-<!-- -->
+></recaptcha-v2>
 ```
 
 In `src/component.js` use
@@ -168,6 +184,7 @@ In `src/component.html` use
     value.bind="recaptchaToken"
 ></recaptcha-v2-invisible>
 <button click.trigger="customReset()">Reset</button>
+<button click.trigger="customExecute()">Trigger</button>
 
 <!-- If interested in a custom callback --
 <recaptcha-v2-invisible
@@ -218,10 +235,15 @@ export class Component {
     customReset() {
         this.events.publish(`grecaptcha:reset:${this.tokenId}`);
     }
+
+    /**
+     * Use this method to trigger the recaptcha execution.
+     */
+    customExecute() {
+        this.events.publish(`grecaptcha:execute:${this.tokenId}`);
+    }
 }
 ```
-
-
 
 ## Recaptcha variables
 
@@ -229,4 +251,4 @@ As you can see while inspecting the code (see [`attached`](https://github.com/IT
 
 ## Issues
 
-For issues, please reffer to this repository's issue page.
+For issues, please reffer to this repository's [issue page](https://github.com/dragoscirjan/aurelia-google-recaptcha/issues).
