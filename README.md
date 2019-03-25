@@ -40,7 +40,6 @@ Plugin is inspired by [Jeremy Danyow](http://stackoverflow.com/users/725866/jere
         - [V3](#v3)
             - [Additional Options](#additional-options-2)
             - [Events](#events-2)
-    - [Recaptcha variables](#recaptcha-variables)
     - [Issues](#issues)
 
 <!-- /TOC -->
@@ -276,7 +275,6 @@ In `src/component.html` use
     sitekey="YOUR_SITE_KEY"
     value.bind="recaptchaToken"
 ></recaptcha>
-<button click.trigger="customReset()">Reset</button>
 <button click.trigger="customExecute()">Trigger</button>
 ```
 
@@ -309,10 +307,6 @@ export class Component {
     }
 }
 ```
-
-## Recaptcha variables
-
-As you can see while inspecting the code (see [`attached`](https://github.com/ITMCdev/aurelia-google-recaptcha/blob/master/src/recaptcha.js) method), we tried implementing all the variables Google Recaptcha uses. All those variables can be used within the `<recaptcha>` tag.
 
 ## Issues
 
