@@ -16,9 +16,9 @@ commands:
       - run: npm install
       - run: npm install -D gulp-cli
       - run: ls
-      - run: npm run gulp lint
-      - run: npm run gulp lint
-      # - run: npm run gulp test
+      - run: ./node_modules/.bin/gulp lint
+      - run: ./node_modules/.bin/gulp
+      # - run: ./node_modules/.bin/gulp test
       - save-npm-cache
   test-nodejs-v6:
     steps:
@@ -34,9 +34,9 @@ commands:
       #       - v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-cache-master-{{ .Environment.CIRCLE_JOB }}
       - run: npm install
       - run: npm install -D gulp-cli
-      - run: npm run gulp lint
-      - run: npm run gulp build
-      # - run: npm run gulp test
+      - run: ./node_modules/.bin/gulp lint
+      - run: ./node_modules/.bin/gulp
+      # - run: ./node_modules/.bin/gulp test
       - save-npm-lock
       - save-npm-cache
   save-npm-lock:
