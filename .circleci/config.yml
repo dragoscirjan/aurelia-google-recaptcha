@@ -9,13 +9,13 @@ commands:
           name: Versions
           command: npm version
       - checkout
-      # - restore_cache:
-      #     keys:
-      #       - v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-cache-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}
-      #       - v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-cache-master-{{ .Environment.CIRCLE_JOB }}
+      - restore_cache:
+          keys:
+            - v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-cache-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}
+            - v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-cache-master-{{ .Environment.CIRCLE_JOB }}
       - run: npm install
       - run: npm install -D gulp-cli @babel/core
-      - run: ./node_modules/.bin/gulp lint
+      # - run: ./node_modules/.bin/gulp lint
       - run: ./node_modules/.bin/gulp
       # - run: ./node_modules/.bin/gulp test
       - save-npm-cache
@@ -25,15 +25,15 @@ commands:
           name: Versions
           command: npm version
       - checkout
-      # - restore_cache:
-      #     keys:
-      #       - v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-lock-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "package-lock.json" }}
-      #       - v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-lock-master-{{ .Environment.CIRCLE_JOB }}-{{ checksum "package-lock.json" }}
-      #       - v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-cache-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}
-      #       - v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-cache-master-{{ .Environment.CIRCLE_JOB }}
+      - restore_cache:
+          keys:
+            - v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-lock-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "package-lock.json" }}
+            - v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-lock-master-{{ .Environment.CIRCLE_JOB }}-{{ checksum "package-lock.json" }}
+            - v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-cache-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}
+            - v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-cache-master-{{ .Environment.CIRCLE_JOB }}
       - run: npm install
       - run: npm install -D gulp-cli @babel/core
-      - run: ./node_modules/.bin/gulp lint
+      # - run: ./node_modules/.bin/gulp lint
       - run: ./node_modules/.bin/gulp
       # - run: ./node_modules/.bin/gulp test
       - save-npm-lock
