@@ -16,8 +16,8 @@ commands:
       - run: npm install
       - run: npm install -D gulp-cli
       - run: ls
-      - run: ./node_modules/.bin/gulp lint
-      - run: ./node_modules/.bin/gulp
+      - run: npm run ./node_modules/.bin/gulp lint
+      # - run: ./node_modules/.bin/gulp
       # - run: ./node_modules/.bin/gulp test
       - save-npm-cache
   test-nodejs-v6:
