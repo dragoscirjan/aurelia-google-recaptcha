@@ -15,8 +15,7 @@ commands:
       #       - v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-cache-master-{{ .Environment.CIRCLE_JOB }}
       - run: npm install
       - run: npm install -D gulp-cli @babel/core
-      - run: ls -la
-      # - run: ./node_modules/.bin/gulp lint
+      - run: ./node_modules/.bin/gulp lint
       - run: ./node_modules/.bin/gulp
       # - run: ./node_modules/.bin/gulp test
       - save-npm-cache
@@ -33,7 +32,7 @@ commands:
       #       - v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-cache-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}
       #       - v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-cache-master-{{ .Environment.CIRCLE_JOB }}
       - run: npm install
-      - run: npm install -D gulp-cli
+      - run: npm install -D gulp-cli @babel/core
       - run: ./node_modules/.bin/gulp lint
       - run: ./node_modules/.bin/gulp
       # - run: ./node_modules/.bin/gulp test
@@ -83,7 +82,7 @@ jobs:
 workflows:
   node-multi-build:
     jobs:
-      # - node-v6
-      # - node-v8
-      # - node-v10
+      - node-v6
+      - node-v8
+      - node-v10
       - node-v11
