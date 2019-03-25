@@ -1,34 +1,29 @@
-var gulp = require('gulp');
-var karma = require('karma').server;
+const Karma = require('karma').Server;
 
 /**
  * Run test once and exit
  */
-gulp.task('test', function (done) {
-    karma.start({
-        configFile: __dirname + '/../../karma.conf.js',
-        singleRun: true
-    }, function(e) {
-        done();
-    });
-});
+exports.test = function(done) {
+  new Karma({
+    configFile: __dirname + '/../../karma.conf.js',
+    singleRun: true
+  }, done).start();
+};
 
 /**
  * Watch for file changes and re-run tests on each change
  */
-gulp.task('tdd', function (done) {
-    karma.start({
-        configFile: __dirname + '/../../karma.conf.js'
-    }, function(e) {
-        done();
-    });
-});
+exports.tdd = function(done) {
+  new Karma({
+    configFile: __dirname + '/../../karma.conf.js'
+  }, done).start();
+};
 
 /**
  * Run test once with code coverage and exit
  */
-gulp.task('cover', function (done) {
-  karma.start({
+exports.cover = function(done) {
+  new Karma({
     configFile: __dirname + '/../../karma.conf.js',
     singleRun: true,
     reporters: ['coverage'],
@@ -37,10 +32,17 @@ gulp.task('cover', function (done) {
       'src/**/*.js': ['babel', 'coverage']
     },
     coverageReporter: {
-      type: 'html',
-      dir: 'build/reports/coverage'
+      includeAllSources: true,
+      instrumenters: {
+        isparta: require('isparta')
+      },
+      instrumenter: {
+        'src/**/*.js': 'isparta'
+      },
+      reporters: [
+        { type: 'html', dir: 'coverage' },
+        { type: 'text' }
+      ]
     }
-  }, function (e) {
-    done();
-  });
-});
+  }, done).start();
+};

@@ -1,220 +1,111 @@
-define(['exports', 'aurelia-framework'], function(exports, _aureliaFramework) {
-  /**
-   * Aurelia Plugin :: Google Recaptcha (http://itmediaconnect.ro/aurelia/aurelia-google-recaptcha)
-   *
-   * @link      http://github.com/itmcdev/aurelia-google-re captcha for the canonical source repository
-   * @link      https://github.com/ITMCdev/aurelia-google-recaptcha/issues for issues
-   * @copyright Copyright (c) 2007-2016 IT Media Connect S.R.L. Romania (http://www.itmediaconnect.ro)
-   * @license   https://github.com/ITMCdev/aurelia-google-recaptcha/blob/master/LICENSE MIT License
-   */
+define(["exports", "aurelia-framework", "parse-duration", "./recaptcha-base"], function (_exports, _aureliaFramework, _parseDuration, _recaptchaBase) {
+  "use strict";
 
-  'use strict';
-
-  Object.defineProperty(exports, '__esModule', {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
+  _exports.Recaptcha = void 0;
+  _parseDuration = _interopRequireDefault(_parseDuration);
 
-  var _createDecoratedClass = (function() {
-    function defineProperties(target, descriptors, initializers) {
-      for (var i = 0; i < descriptors.length; i++) {
-        var descriptor = descriptors[i];
-        var decorators = descriptor.decorators;
-        var key = descriptor.key;
-        delete descriptor.key;
-        delete descriptor.decorators;
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ('value' in descriptor || descriptor.initializer) descriptor.writable = true;
-        if (decorators) {
-          for (var f = 0; f < decorators.length; f++) {
-            var decorator = decorators[f];
-            if (typeof decorator === 'function') {
-              descriptor = decorator(target, key, descriptor) || descriptor;
-            } else {
-              throw new TypeError(
-                'The decorator for method ' + descriptor.key + ' is of the invalid type ' + typeof decorator
-              );
-            }
-          }
-          if (descriptor.initializer !== undefined) {
-            initializers[key] = descriptor;
-            continue;
-          }
-        }
-        Object.defineProperty(target, key, descriptor);
+  var _dec, _class, _class2, _descriptor, _descriptor2, _temp;
+
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+  function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
+
+  function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+  function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+  function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+  function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
+
+  function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+
+  function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.'); }
+
+  var Recaptcha = (_dec = (0, _aureliaFramework.customElement)('recaptcha'), _dec(_class = (_class2 = (_temp = function (_RecaptchaBase) {
+    _inheritsLoose(Recaptcha, _RecaptchaBase);
+
+    function Recaptcha() {
+      var _this;
+
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
       }
+
+      _this = _RecaptchaBase.call.apply(_RecaptchaBase, [this].concat(args)) || this;
+
+      _initializerDefineProperty(_this, "action", _descriptor, _assertThisInitialized(_this));
+
+      _initializerDefineProperty(_this, "expires", _descriptor2, _assertThisInitialized(_this));
+
+      return _this;
     }
-    return function(Constructor, protoProps, staticProps, protoInitializers, staticInitializers) {
-      if (protoProps) defineProperties(Constructor.prototype, protoProps, protoInitializers);
-      if (staticProps) defineProperties(Constructor, staticProps, staticInitializers);
-      return Constructor;
+
+    var _proto = Recaptcha.prototype;
+
+    _proto.bind = function bind() {
+      _RecaptchaBase.prototype.bind && _RecaptchaBase.prototype.bind.call(this);
+      this.loadScript(this.getScriptId(), "https://www.google.com/recaptcha/api.js?render=" + this.sitekey);
+      this.registerExecuteEvent();
     };
-  })();
 
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError('Cannot call a class as a function');
-    }
-  }
+    _proto.attached = function attached() {
+      _RecaptchaBase.prototype.attached && _RecaptchaBase.prototype.attached.call(this);
+      this.registerExecuteWatcher();
+      this.registerExpireWatcher();
+    };
 
-  function _defineDecoratedPropertyDescriptor(target, key, descriptors) {
-    var _descriptor = descriptors[key];
-    if (!_descriptor) return;
-    var descriptor = {};
-    for (var _key in _descriptor) descriptor[_key] = _descriptor[_key];
-    descriptor.value = descriptor.initializer ? descriptor.initializer.call(target) : undefined;
-    Object.defineProperty(target, key, descriptor);
-  }
+    _proto.registerExpireWatcher = function registerExpireWatcher() {
+      var _this2 = this;
 
-  var recaptchaCallbackName = 'setRecaptchaReady';
-  var ready = new Promise(function(resolve) {
-    return (window[recaptchaCallbackName] = resolve);
-  });
-
-  var script = document.createElement('script');
-  script.src =
-    'https://www.google.com/recaptcha/api.js?onload=' +
-    recaptchaCallbackName +
-    '&render=explicit&hl=' +
-    (document.getElementsByTagName('html')[0].getAttribute('lang') || 'en');
-  script.async = true;
-  script.defer = true;
-  document.head.appendChild(script);
-
-  var Recaptcha = (function() {
-    var _instanceInitializers = {};
-    var _instanceInitializers = {};
-
-    _createDecoratedClass(
-      Recaptcha,
-      [
-        {
-          key: 'callback',
-          decorators: [_aureliaFramework.bindable],
-          initializer: null,
-          enumerable: true
-        },
-        {
-          key: 'expiredCallback',
-          decorators: [_aureliaFramework.bindable],
-          initializer: null,
-          enumerable: true
-        },
-        {
-          key: 'size',
-          decorators: [_aureliaFramework.bindable],
-          initializer: function initializer() {
-            return 'normal';
-          },
-          enumerable: true
-        },
-        {
-          key: 'tabindex',
-          decorators: [_aureliaFramework.bindable],
-          initializer: function initializer() {
-            return 0;
-          },
-          enumerable: true
-        },
-        {
-          key: 'theme',
-          decorators: [_aureliaFramework.bindable],
-          initializer: function initializer() {
-            return 'light';
-          },
-          enumerable: true
-        },
-        {
-          key: 'type',
-          decorators: [_aureliaFramework.bindable],
-          initializer: function initializer() {
-            return 'image';
-          },
-          enumerable: true
-        },
-        {
-          key: 'sitekey',
-          decorators: [_aureliaFramework.bindable],
-          initializer: function initializer() {
-            return '';
-          },
-          enumerable: true
+      var eventName = "grecaptcha:expire:" + this.id;
+      this.__watchers__[eventName] = setInterval(function () {
+        if (_this2.lastCheck && new Date().getTime() - _this2.lastCheck.getTime() > _this2.parsedExpires) {
+          _this2.value = null;
         }
-      ],
-      null,
-      _instanceInitializers
-    );
+      }, 1000);
+    };
 
-    function Recaptcha(element) {
-      _classCallCheck(this, _Recaptcha);
+    _proto.recaptchaExecute = function recaptchaExecute() {
+      var _this3 = this;
 
-      _defineDecoratedPropertyDescriptor(this, 'callback', _instanceInitializers);
+      if (typeof window[_recaptchaBase.GR] === undefined || !grecaptcha.execute) {
+        return;
+      }
 
-      _defineDecoratedPropertyDescriptor(this, 'expiredCallback', _instanceInitializers);
+      grecaptcha.execute(this.sitekey, {
+        action: this.action
+      }).then(function (token) {
+        _this3.value = token;
+        _this3.lastCheck = new Date();
+      });
+    };
 
-      _defineDecoratedPropertyDescriptor(this, 'size', _instanceInitializers);
+    _createClass(Recaptcha, [{
+      key: "parsedExpires",
+      get: function get() {
+        return (0, _parseDuration.default)(this.expires);
+      }
+    }]);
 
-      _defineDecoratedPropertyDescriptor(this, 'tabindex', _instanceInitializers);
-
-      _defineDecoratedPropertyDescriptor(this, 'theme', _instanceInitializers);
-
-      _defineDecoratedPropertyDescriptor(this, 'type', _instanceInitializers);
-
-      _defineDecoratedPropertyDescriptor(this, 'sitekey', _instanceInitializers);
-
-      this.element = element;
-    }
-
-    _createDecoratedClass(
-      Recaptcha,
-      [
-        {
-          key: 'attached',
-          value: function attached() {
-            var _this = this;
-
-            ready.then(function() {
-              var self = _this;
-              grecaptcha.render(_this.element, {
-                callback:
-                  typeof _this.callback === 'string'
-                    ? function(result) {
-                        if (window[self.callback]) {
-                          window[self.callback].call(grecaptcha, result);
-                          return;
-                        }
-                        throw new Error("callback '" + self.callback + "' does not exists");
-                      }
-                    : _this.callback,
-                'expired-callback':
-                  typeof _this.expiredCallback === 'string'
-                    ? function(result) {
-                        if (window[self.expiredCallback]) {
-                          window[self.expiredCallback].call(grecaptcha, result);
-                          return;
-                        }
-                        throw new Error("callback '" + self.expiredCallback + "' does not exists");
-                      }
-                    : _this.expiredCallback,
-                sitekey: _this.sitekey,
-                size: _this.size,
-                tabindex: _this.tabindex,
-                theme: _this.theme,
-                type: _this.type
-              });
-            });
-          }
-        }
-      ],
-      null,
-      _instanceInitializers
-    );
-
-    var _Recaptcha = Recaptcha;
-    Recaptcha = (0, _aureliaFramework.inject)(Element)(Recaptcha) || Recaptcha;
-    Recaptcha = (0, _aureliaFramework.noView)()(Recaptcha) || Recaptcha;
     return Recaptcha;
-  })();
-
-  exports.Recaptcha = Recaptcha;
+  }(_recaptchaBase.RecaptchaBase), _temp), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "action", [_aureliaFramework.bindable], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function initializer() {
+      return 'homepage';
+    }
+  }), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "expires", [_aureliaFramework.bindable], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function initializer() {
+      return '1m';
+    }
+  })), _class2)) || _class);
+  _exports.Recaptcha = Recaptcha;
 });

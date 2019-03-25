@@ -1,57 +1,66 @@
-var gulp = require('gulp');
-var runSequence = require('run-sequence');
-var to5 = require('gulp-babel');
-var paths = require('../paths');
-var compilerOptions = require('../babel-options');
-var assign = Object.assign || require('object.assign');
+const assign = Object.assign || require('object.assign');
+const { clean } = require('./clean');
+const compilerOptions = require('../babel-options');
+const path = require('path');
+const paths = require('../paths');
+const less = require('gulp-less');
+const to5 = require('gulp-babel');
+const { dest, series, src } = require('gulp');
+// const uglifycss = require('gulp-uglifycss'); // not sure whether to apply it, yet
 
-gulp.task('build-html-es6', function () {
-  return gulp.src(paths.html)
-    .pipe(gulp.dest(paths.output + 'es6'));
-});
+const buildHtml = function() {
+  return src(paths.html)
+    .pipe(dest(paths.output + 'es2015/'))
+    .pipe(dest(paths.output + 'commonjs/'))
+    .pipe(dest(paths.output + 'amd/'))
+    .pipe(dest(paths.output + 'system/'));
+};
 
-gulp.task('build-es6', ['build-html-es6'], function () {
-  return gulp.src(paths.source)
-    .pipe(gulp.dest(paths.output + 'es6'));
-});
+const buildCss = function() {
+  return src(paths.css)
+    // .pipe(uglifycss())
+    .pipe(dest(paths.output + 'es2015/'))
+    .pipe(dest(paths.output + 'commonjs/'))
+    .pipe(dest(paths.output + 'amd/'))
+    .pipe(dest(paths.output + 'system/'));
+  };
+  
+const buildLess = function() {
+    return src(paths.less)
+      .pipe(less({
+        paths: [ path.join(__dirname, 'less', 'includes') ]
+      }))
+      // .pipe(uglifycss())
+      .pipe(dest(paths.output + 'es2015/'))
+      .pipe(dest(paths.output + 'commonjs/'))
+      .pipe(dest(paths.output + 'amd/'))
+      .pipe(dest(paths.output + 'system/'));
+   
+}
 
-gulp.task('build-html-commonjs', function () {
-  return gulp.src(paths.html)
-    .pipe(gulp.dest(paths.output + 'commonjs'));
-});
+const buildEs2015 = function() {
+  return src(paths.source)
+    .pipe(to5(assign({}, compilerOptions.es2015())))
+    .pipe(dest(paths.output + 'es2015/'));
+};
 
-gulp.task('build-commonjs', ['build-html-commonjs'], function () {
-  return gulp.src(paths.source)
-    .pipe(to5(assign({}, compilerOptions, {modules:'common'})))
-    .pipe(gulp.dest(paths.output + 'commonjs'));
-});
+const buildCommonjs = function() {
+  return src(paths.source)
+    .pipe(to5(assign({}, compilerOptions.commonjs())))
+    .pipe(dest(paths.output + 'commonjs/'));
+};
 
-gulp.task('build-html-amd', function () {
-  return gulp.src(paths.html)
-    .pipe(gulp.dest(paths.output + 'amd'));
-});
+const buildAmd = function() {
+  return src(paths.source)
+    .pipe(to5(assign({}, compilerOptions.amd())))
+    .pipe(dest(paths.output + 'amd/'));
+};
 
-gulp.task('build-amd', ['build-html-amd'], function () {
-  return gulp.src(paths.source)
-    .pipe(to5(assign({}, compilerOptions, {modules:'amd'})))
-    .pipe(gulp.dest(paths.output + 'amd'));
-});
+const buildSystem = function() {
+  return src(paths.source)
+    .pipe(to5(assign({}, compilerOptions.system())))
+    .pipe(dest(paths.output + 'system/'));
+};
 
-gulp.task('build-html-system', function () {
-  return gulp.src(paths.html)
-    .pipe(gulp.dest(paths.output + 'system'));
-});
-
-gulp.task('build-system', ['build-html-system'], function () {
-  return gulp.src(paths.source)
-    .pipe(to5(assign({}, compilerOptions, {modules:'system'})))
-    .pipe(gulp.dest(paths.output + 'system'));
-});
-
-gulp.task('build', function(callback) {
-  return runSequence(
-    'clean',
-    ['build-es6', 'build-commonjs', 'build-amd', 'build-system'],
-    callback
-  );
-});
+exports.build = buildEs2015;
+exports.build = series(clean, buildHtml, buildCss, buildLess, buildEs2015, buildCommonjs, buildAmd, buildSystem);

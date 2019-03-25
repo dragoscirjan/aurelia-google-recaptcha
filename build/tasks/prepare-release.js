@@ -1,36 +1,36 @@
-var gulp = require('gulp');
-var runSequence = require('run-sequence');
-var paths = require('../paths');
-var changelog = require('conventional-changelog');
-var fs = require('fs');
-var bump = require('gulp-bump');
-var args = require('../args');
+const args = require('../args');
+const { build } = require('./build');
+const { lint } = require('./lint');
+const bump = require('gulp-bump');
+const conventionalChangelog = require('conventional-changelog');
+const { dest, src } = require('gulp');
+const fs = require('fs');
+const paths = require('../paths');
+const { series } = require('gulp');
 
-gulp.task('bump-version', function(){
-  return gulp.src(['./package.json', './bower.json'])
-    .pipe(bump({type:args.bump })) //major|minor|patch|prerelease
-    .pipe(gulp.dest('./'));
-});
+// utilizes the bump plugin to bump the
+// semver for the repo
 
-gulp.task('changelog', function(callback) {
-  var pkg = JSON.parse(fs.readFileSync('./package.json', 'utf-8'));
+const bumpVersion = function() {
+  return src(['./package.json'])
+    .pipe(bump({type: args.bump})) //major|minor|patch|prerelease
+    .pipe(dest('./'));
+};
 
-  return changelog({
+// generates the CHANGELOG.md file based on commit
+// from git commit messages
+const changelog = function(callback) {
+  const pkg = JSON.parse(fs.readFileSync('./package.json', 'utf-8'));
+
+  return conventionalChangelog({
     repository: pkg.repository.url,
     version: pkg.version,
     file: paths.doc + '/CHANGELOG.md'
   }, function(err, log) {
     fs.writeFileSync(paths.doc + '/CHANGELOG.md', log);
   });
-});
+};
 
-gulp.task('prepare-release', function(callback){
-  return runSequence(
-    'build',
-    'lint',
-    'bump-version',
-    'doc',
-    'changelog',
-    callback
-  );
-});
+exports.bumpVersion = bumpVersion;
+exports.changelog = changelog;
+exports.prepareRelease = series(build, lint, bumpVersion, changelog);
