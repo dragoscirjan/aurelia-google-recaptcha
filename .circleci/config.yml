@@ -77,28 +77,37 @@ commands:
 # Obtain versions with: `curl -sSL https://registry.hub.docker.com/v1/repositories/circleci/node/tags | sed -e 's/[][]//g' -e 's/"//g' -e 's/ //g' | tr '}' '\n'  | awk -F: '{print $3}' | sort | grep -e "^11."`
 
 jobs:
-  branches:
-    only:
-      - master
   node-v6:
+    branches:
+      only:
+        - master
     docker:
       # - image: circleci/node:6.16.0-browsers
       - image: circleci/node:6-stretch-browsers
     steps:
       - test-nodejs-v6
   node-v8:
+    branches:
+      only:
+        - master
     docker:
       # - image: circleci/node:8.9.4-browsers
       - image: circleci/node:8-stretch-browsers
     steps:
       - test-nodejs
   node-v10:
+    branches:
+      only:
+        - master
     docker:
       # - image: circleci/node:10.9.0-browsers
       - image: circleci/node:10-stretch-browsers
     steps:
       - test-nodejs
   node-v11:
+    branches:
+      only:
+        - master
     docker:
       # - image: circleci/node:11.9-browsers
       - image: circleci/node:11-stretch-browsers
