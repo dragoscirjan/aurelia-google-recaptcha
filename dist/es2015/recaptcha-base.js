@@ -117,7 +117,11 @@ var RecaptchaBase = (_dec = (0, _aureliaFramework.noView)(), _dec2 = (0, _aureli
   };
 
   _proto.unregisterEvents = function unregisterEvents() {
-    for (key in Object.keys(this.__auevents__)) {
+    var _arr = Object.keys(this.__auevents__);
+
+    for (var _i = 0; _i < _arr.length; _i++) {
+      var key = _arr[_i];
+
       if (typeof this.__auevents__[key].dispose === 'function') {
         this.__auevents__[key].dispose();
 
@@ -127,7 +131,10 @@ var RecaptchaBase = (_dec = (0, _aureliaFramework.noView)(), _dec2 = (0, _aureli
   };
 
   _proto.unregisterWatchers = function unregisterWatchers() {
-    for (key in Object.keys(this.__watchers__)) {
+    var _arr2 = Object.keys(this.__watchers__);
+
+    for (var _i2 = 0; _i2 < _arr2.length; _i2++) {
+      var key = _arr2[_i2];
       clearInterval(this.__watchers__[key]);
       delete this.__watchers__[key];
     }

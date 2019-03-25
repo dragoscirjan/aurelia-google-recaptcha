@@ -160,7 +160,7 @@ export class RecaptchaBase {
    * @param {String} eventName
    */
   unregisterEvents() {
-    for (key in Object.keys(this.__auevents__)) {
+    for (const key of Object.keys(this.__auevents__)) {
       if (typeof this.__auevents__[key].dispose === 'function') {
         this.__auevents__[key].dispose();
         delete this.__auevents__[key];
@@ -173,7 +173,7 @@ export class RecaptchaBase {
    * @param {String} eventName
    */
   unregisterWatchers() {
-    for (key in Object.keys(this.__watchers__)) {
+    for (const key of Object.keys(this.__watchers__)) {
       clearInterval(this.__watchers__[key]);
       delete this.__watchers__[key];
     }
