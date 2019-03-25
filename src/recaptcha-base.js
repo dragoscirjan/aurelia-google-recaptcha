@@ -27,7 +27,7 @@ export class RecaptchaBase {
   /** @var {Boolean} Optional. Trigger an auto-validate loop interval, keeping the recaptcha validated. */
   @bindable auto = false;
 
-  /** @var {Boolean} Two way bindable value, announcing recaptcha result outside of the component. */
+  /** @var {Boolean} Two way bindable value, announcing recaptcha component ID. */
   @bindable({ defaultBindingMode: bindingMode.twoWay }) id = null;
 
   /** @var {String} Your sitekey. */
