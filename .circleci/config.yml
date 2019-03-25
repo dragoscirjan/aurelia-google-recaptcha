@@ -8,7 +8,7 @@ commands:
       - run:
           name: Versions
           command: npm version
-      # - checkout
+      - checkout
       # - restore_cache:
       #     keys:
       #       - v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-cache-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}
@@ -25,7 +25,7 @@ commands:
       - run:
           name: Versions
           command: npm version
-      # - checkout
+      - checkout
       # - restore_cache:
       #     keys:
       #       - v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-lock-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "package-lock.json" }}
