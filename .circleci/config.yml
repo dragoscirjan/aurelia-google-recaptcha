@@ -78,36 +78,24 @@ commands:
 
 jobs:
   node-v6:
-    branches:
-      only:
-        - master
     docker:
       # - image: circleci/node:6.16.0-browsers
       - image: circleci/node:6-stretch-browsers
     steps:
       - test-nodejs-v6
   node-v8:
-    branches:
-      only:
-        - master
     docker:
       # - image: circleci/node:8.9.4-browsers
       - image: circleci/node:8-stretch-browsers
     steps:
       - test-nodejs
   node-v10:
-    branches:
-      only:
-        - master
     docker:
       # - image: circleci/node:10.9.0-browsers
       - image: circleci/node:10-stretch-browsers
     steps:
       - test-nodejs
   node-v11:
-    branches:
-      only:
-        - master
     docker:
       # - image: circleci/node:11.9-browsers
       - image: circleci/node:11-stretch-browsers
