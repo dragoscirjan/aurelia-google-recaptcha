@@ -1,29 +1,17 @@
-import { PLATFORM } from 'aurelia-pal';
-
+import { Config } from './config';
 import { getHash } from './recaptcha-base';
 import { Recaptcha } from './recaptcha';
 import { RecaptchaV2 } from './recaptcha-v2';
 import { RecaptchaV2Invisible } from './recaptcha-v2-invisible';
 
-export class Config {
-  /**
-   * @param {FrameworkConfiguration} aurelia
-   */
-  configure(aurelia) {
-    aurelia.globalResources(PLATFORM.moduleName('./recaptcha'));
-    aurelia.globalResources(PLATFORM.moduleName('./recaptcha-v2'));
-    aurelia.globalResources(PLATFORM.moduleName('./recaptcha-v2-invisible'));
-  }
-}
-
 /**
  * @param {FrameworkConfiguration} aurelia
- * @param {Function}               [callback=null]
+ * @param {Function}               callback
  */
-export function configure(aurelia, callback = null) {
+export function configure(aurelia, callback) {
   let config = aurelia.container.get(Config);
 
-  if (typeof callback === 'function') {
+  if (callback !== undefined && typeof(callback) === 'function') {
     callback(config);
   }
 

@@ -12,6 +12,8 @@ import { bindable, bindingMode, inject, noView } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import nanoid from 'nanoid';
 
+import { Config } from './config';
+
 /**
  * Hash method.
  * @returns {String}
@@ -22,7 +24,8 @@ export const getHash = () => nanoid().replace(/-/gi, '');
 export const GR = 'grecaptcha';
 
 @noView()
-@inject(Element, EventAggregator)
+// @inject(Config, Element, EventAggregator)
+@inject(Element, Config, EventAggregator)
 export class RecaptchaBase {
   /** @var {Boolean} Optional. Trigger an auto-validate loop interval, keeping the recaptcha validated. */
   @bindable auto = false;
@@ -38,6 +41,9 @@ export class RecaptchaBase {
 
   /** @var {String} */
   static HASH = getHash();
+
+  /** @var {Config} */
+  config;
 
   /** @var {String|null} The event name used to trigger the recaptcha validation. */
   eventName = null;
@@ -56,8 +62,9 @@ export class RecaptchaBase {
    * @param  {DocumentElement}    element Element to render recaptcha
    * @param  {EventAggregator}    events  Events Aggregator
    */
-  constructor(element, events) {
+  constructor(element, config, events) {
     this.element = element;
+    this.config = config;
     this.events = events;
   }
 
@@ -67,6 +74,9 @@ export class RecaptchaBase {
   bind() {
     if (!this.id) {
       this.id = getHash();
+    }
+    if (!this.sitekey) {
+      this.sitekey = this.config.get('siteKey');
     }
   }
 

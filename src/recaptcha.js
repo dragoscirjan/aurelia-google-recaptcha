@@ -44,6 +44,9 @@ export class Recaptcha extends RecaptchaBase {
    */
   bind() {
     super.bind && super.bind();
+    if (!this.sitekey) {
+      this.sitekey = this.config.get('siteKeys.v3');
+    }
 
     this.loadScript(this.getScriptId(), `https://www.google.com/recaptcha/api.js?render=${this.sitekey}`);
 

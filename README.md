@@ -64,6 +64,19 @@ In your aurelia `main.js` add:
 
 ```jsx
 aurelia.use.plugin(PLATFORM.moduleName('aurelia-google-recaptcha'));
+// or (if you want to configure the plugin from the start)
+aurelia.use.plugin(PLATFORM.moduleName('aurelia-google-recaptcha'), config => {
+    config.assign({
+        siteKey: '', // use this as general sitekey if you use only one type of recaptcha
+        siteKeys: {
+          v2: '', // use these sitekeys to separte the values between all 3 types of recaptcha
+          v2i: '',
+          v3: ''
+        },
+        lang: 'en'  // for V2, we can also set the supported language
+                    // see https://developers.google.com/recaptcha/docs/language
+    });
+});
 ```
 
 ## Options
@@ -72,7 +85,7 @@ aurelia.use.plugin(PLATFORM.moduleName('aurelia-google-recaptcha'));
 |---|---|---|---|
 | `auto` | Boolean | `false` | _Optional._ Trigger an auto-validate loop interval, keeping the recaptcha validated. |
 | `id` | String |   | _Optional._ _Two Way_ bindable value, announcing recaptcha component ID. |
-| `sitekey` | String  |  ` ` | Your sitekey. |
+| `sitekey` | String  |   | _Optional._ Your can also mention the sitekey inline within code. This value will override the one from config. |
 | `value` | String |   | _Optional._ _Two Way_ bindable value, announcing recaptcha result outside of the component. |
 
 ## Component

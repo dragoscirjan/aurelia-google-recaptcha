@@ -12,10 +12,13 @@ import { getHash, RecaptchaBase } from './recaptcha-base';
 
 let scriptReady = false;
 const callbackName = `__recaptcha_callback_${getHash()}__`;
-const callbackPromise = new Promise(resolve => window[callbackName] = () => {
-  scriptReady = true;
-  resolve();
-});
+const callbackPromise = new Promise(
+  resolve =>
+    (window[callbackName] = () => {
+      scriptReady = true;
+      resolve();
+    })
+);
 
 /**
  * Google Recaptcha plugin, originally developed by Jeremy Danyow (http://stackoverflow.com/users/725866/jeremy-danyow)
@@ -56,8 +59,11 @@ export class RecaptchaV2 extends RecaptchaBase {
    */
   bind() {
     super.bind && super.bind();
+    if (!this.sitekey) {
+      this.sitekey = this.config.get('siteKeys.v2');
+    }
 
-    const lang = document.getElementsByTagName('html')[0].getAttribute('lang') || 'en';
+    const lang = document.getElementsByTagName('html')[0].getAttribute('lang') || this.config.get('lang');
     const script = `https://www.google.com/recaptcha/api.js?onload=${callbackName}&render=explicit&hl=${lang}`;
     this.loadScript(this.getScriptId(), script);
 

@@ -1,28 +1,28 @@
-"use strict";
+'use strict';
 
 exports.__esModule = true;
 exports.configure = configure;
 exports.Config = void 0;
 
-var _aureliaPal = require("aurelia-pal");
+var _aureliaPal = require('aurelia-pal');
 
-var _recaptchaBase = require("./recaptcha-base");
+var _recaptchaBase = require('./recaptcha-base');
 
 exports.getHash = _recaptchaBase.getHash;
 
-var _recaptcha = require("./recaptcha");
+var _recaptcha = require('./recaptcha');
 
 exports.Recaptcha = _recaptcha.Recaptcha;
 
-var _recaptchaV = require("./recaptcha-v2");
+var _recaptchaV = require('./recaptcha-v2');
 
 exports.RecaptchaV2 = _recaptchaV.RecaptchaV2;
 
-var _recaptchaV2Invisible = require("./recaptcha-v2-invisible");
+var _recaptchaV2Invisible = require('./recaptcha-v2-invisible');
 
 exports.RecaptchaV2Invisible = _recaptchaV2Invisible.RecaptchaV2Invisible;
 
-var Config = function () {
+var Config = (function() {
   function Config() {}
 
   var _proto = Config.prototype;
@@ -34,7 +34,7 @@ var Config = function () {
   };
 
   return Config;
-}();
+})();
 
 exports.Config = Config;
 

@@ -33,6 +33,9 @@ export class RecaptchaV2Invisible extends RecaptchaV2 {
    */
   bind() {
     super.bind && super.bind();
+    if (!this.sitekey || this.sitekey === this.config.get('siteKeys.v2')) {
+      this.sitekey = this.config.get('siteKeys.v2i');
+    }
 
     this.registerExecuteEvent();
   }
