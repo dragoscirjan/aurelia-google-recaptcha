@@ -20,6 +20,27 @@ const callbackPromise = new Promise(
     })
 );
 
+export class RecaptchaCallback /*extends Event*/ {
+  constructor(component, token, widgetId) {
+    // super('recaptcha-callback');
+
+    this.component = component;
+    this.grecaptcha = grecaptcha;
+    this.token = token;
+    this.widgetId = widgetId;
+  }
+}
+
+export class RecaptchaExpired /*extends Event*/ {
+  constructor(component, widgetId) {
+    // super('recaptcha-callback');
+
+    this.component = component;
+    this.grecaptcha = grecaptcha;
+    this.widgetId = widgetId;
+  }
+}
+
 /**
  * Google Recaptcha plugin, originally developed by Jeremy Danyow (http://stackoverflow.com/users/725866/jeremy-danyow)
  * and extended by Dragos Cirjan (http://github.com/dragoscirjan)
@@ -106,11 +127,16 @@ export class RecaptchaV2 extends RecaptchaBase {
    */
   renderOptions() {
     const callback = () => {
-      if (this.callback && window[this.callback]) {
-        return window[this.callback].call(grecaptcha);
-      }
       if (this.widgetId !== null) {
         this.value = grecaptcha.getResponse(this.widgetId);
+      }
+      if (this.callback) {
+        if (typeof this.callback === 'function') {
+          return this.callback(new RecaptchaVerified(this, this.value, this.widgetId));
+        }
+        if (window[this.callback]) {
+          return window[this.callback].call(new RecaptchaVerified(this, this.value, this.widgetId));
+        }
       }
     };
     const errorCallback = () => {
@@ -122,11 +148,16 @@ export class RecaptchaV2 extends RecaptchaBase {
       }
     };
     const expiredCallback = () => {
-      if (this.expiredCallback && window[this.expiredCallback]) {
-        return window[this.expiredCallback].call(grecaptcha);
-      }
       if (this.widgetId !== null) {
         this.value = grecaptcha.getResponse(this.widgetId);
+      }
+      if (this.expiredCallback) {
+        if (typeof this.expiredCallback === 'function') {
+          return this.expiredCallback(new RecaptchaExpired(this, this.widgetId));
+        }
+        if (window[this.expiredCallback]) {
+          return window[this.expiredCallback].call(new RecaptchaExpired(this, this.widgetId));
+        }
       }
     };
     return {

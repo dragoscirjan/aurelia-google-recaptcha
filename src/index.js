@@ -11,7 +11,7 @@ import { RecaptchaV2Invisible } from './recaptcha-v2-invisible';
 export function configure(aurelia, callback) {
   let config = aurelia.container.get(Config);
 
-  if (callback !== undefined && typeof(callback) === 'function') {
+  if (callback !== undefined && typeof callback === 'function') {
     callback(config);
   }
 
