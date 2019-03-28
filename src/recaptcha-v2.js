@@ -20,7 +20,7 @@ const callbackPromise = new Promise(
     })
 );
 
-export class RecaptchaCallback /*extends Event*/ {
+export class RecaptchaVerified /*extends Event*/ {
   constructor(component, token, widgetId) {
     // super('recaptcha-callback');
 
@@ -31,9 +31,19 @@ export class RecaptchaCallback /*extends Event*/ {
   }
 }
 
+export class RecaptchaError /*extends Event*/ {
+  constructor(component, widgetId) {
+    // super('recaptcha-callback-error');
+
+    this.component = component;
+    this.grecaptcha = grecaptcha;
+    this.widgetId = widgetId;
+  }
+}
+
 export class RecaptchaExpired /*extends Event*/ {
   constructor(component, widgetId) {
-    // super('recaptcha-callback');
+    // super('recaptcha-callback-expired');
 
     this.component = component;
     this.grecaptcha = grecaptcha;
@@ -135,28 +145,29 @@ export class RecaptchaV2 extends RecaptchaBase {
           return this.callback(new RecaptchaVerified(this, this.value, this.widgetId));
         }
         if (window[this.callback]) {
-          return window[this.callback].call(new RecaptchaVerified(this, this.value, this.widgetId));
+          return window[this.callback].call(null, new RecaptchaVerified(this, this.value, this.widgetId));
         }
       }
     };
     const errorCallback = () => {
-      if (this.errorCallback && window[this.errorCallback]) {
-        return window[this.errorCallback].call(grecaptcha);
-      }
-      if (this.widgetId !== null) {
-        // TODO: What to do with error callbacks.
+      this.value = undefined;
+      if (this.errorCallback) {
+        if (typeof this.errorCallback === 'function') {
+          return this.callback(new RecaptchaError(this, this.widgetId));
+        }
+        if (window[this.errorCallback]) {
+          return window[this.errorCallback].call(null, new RecaptchaError(this, this.widgetId));
+        }
       }
     };
     const expiredCallback = () => {
-      if (this.widgetId !== null) {
-        this.value = grecaptcha.getResponse(this.widgetId);
-      }
+      this.value = null;
       if (this.expiredCallback) {
         if (typeof this.expiredCallback === 'function') {
           return this.expiredCallback(new RecaptchaExpired(this, this.widgetId));
         }
         if (window[this.expiredCallback]) {
-          return window[this.expiredCallback].call(new RecaptchaExpired(this, this.widgetId));
+          return window[this.expiredCallback].call(null, new RecaptchaExpired(this, this.widgetId));
         }
       }
     };
