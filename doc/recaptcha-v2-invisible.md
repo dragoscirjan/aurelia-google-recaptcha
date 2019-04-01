@@ -4,15 +4,6 @@
 
 [reCAPTCHA v2 Invisible](https://developers.google.com/recaptcha/docs/invisible) is an invisible component, which will evaluate automatically or by custom trigger and return a score for each request without user friction (use does not need to interract with the plugin).
 
-<!-- TOC -->
-
-- [reCAPTCHA v2](#recaptcha-v2)
-    - [Invisible Implementation](#invisible-implementation)
-            - [Additional Options](#additional-options)
-            - [Events](#events)
-
-<!-- /TOC -->
-
 Please also check
 
 * [reCAPTCHA v3](https://github.com/dragoscirjan/aurelia-google-recaptcha/blob/master/doc/recaptcha-v3.md)
@@ -20,7 +11,20 @@ Please also check
   * [Checkbox](https://github.com/dragoscirjan/aurelia-google-recaptcha/blob/master/doc/recaptcha-v2.md)
   * Invisible
 
-#### Additional Options
+## Index
+
+<!-- TOC -->
+
+- [reCAPTCHA v2](#recaptcha-v2)
+    - [Invisible Implementation](#invisible-implementation)
+    - [Index](#index)
+    - [Additional Options](#additional-options)
+    - [Events](#events)
+    - [Usage](#usage)
+
+<!-- /TOC -->
+
+## Additional Options
 
 > NOTE: All [generic options](https://github.com/dragoscirjan/aurelia-google-recaptcha#generic-options) as well as [reCAPTCHA checkbox options](https://github.com/dragoscirjan/aurelia-google-recaptcha/blob/master/doc/recaptcha-v2.md) are still valid, yet some may not work.
 
@@ -29,7 +33,7 @@ Please also check
 | `badge` | String | `inline` | _Optional._ Reposition the reCAPTCHA badge. 'inline' lets you position it with CSS. Values: `bottomright`, `bottomleft`, `inline`.  |
 | `isolated` | Boolean  | `false` | _Optional._ For plugin owners to not interfere with existing reCAPTCHA installations on a page. If true, this reCAPTCHA instance will be part of a separate ID space. |
 
-#### Events
+## Events
 
 > NOTE: `grecaptcha:reset:{RECAPTCHA_ID}` event is valid for this component as well.
 
@@ -37,6 +41,8 @@ Please also check
 |---|---|
 | `grecaptcha:execute:{RECAPTCHA_ID}` | Trigger execution of the recaptcha. |
 
+
+## Usage
 
 In `src/component.html` use
 

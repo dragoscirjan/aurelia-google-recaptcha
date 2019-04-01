@@ -4,21 +4,25 @@
 
 [reCAPTCHA v2 Checkbox](https://developers.google.com/recaptcha/docs/display) is an interactable with component, which will evaluate return a score for each request without user friction (use does not need to interract with the plugin).
 
-<!-- TOC -->
-
-- [reCAPTCHA v2](#recaptcha-v2)
-    - [Checkbox Implementation](#checkbox-implementation)
-    - [Additional Options](#additional-options)
-    - [Events](#events)
-
-<!-- /TOC -->
-
 Please also check
 
 * [reCAPTCHA v3](https://github.com/dragoscirjan/aurelia-google-recaptcha/blob/master/doc/recaptcha-v3.md)
 * reCAPTCHA v2
   * Checkbox
   * [Invisible](https://github.com/dragoscirjan/aurelia-google-recaptcha/blob/master/doc/recaptcha-invisible.md)
+
+## Index
+
+<!-- TOC -->
+
+- [reCAPTCHA v2](#recaptcha-v2)
+    - [Checkbox Implementation](#checkbox-implementation)
+    - [Index](#index)
+    - [Additional Options](#additional-options)
+    - [Events](#events)
+    - [Usage](#usage)
+
+<!-- /TOC -->
 
 ## Additional Options
 
@@ -36,6 +40,8 @@ Please also check
 | Event | Description |
 |---|---|
 | `grecaptcha:reset:{RECAPTCHA_ID}` | Reset event. Call this after submitting data, if you still need to re-use the form. |
+
+## Usage
 
 In `src/component.html` use
 

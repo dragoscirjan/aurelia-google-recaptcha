@@ -2,20 +2,24 @@
 
 [reCAPTCHA v3](https://developers.google.com/recaptcha/docs/v3) is an invisible component, which will evaluate automatically or by custom trigger and return a score for each request without user friction (use does not need to interract with the plugin).
 
-<!-- TOC -->
-
-- [reCAPTCHA v3](#recaptcha-v3)
-    - [Additional Options](#additional-options)
-    - [Events](#events)
-
-<!-- /TOC -->
-
 Please also check
 
 * reCAPTCHA v3
 * reCAPTCHA v2
   * [Checkbox](https://github.com/dragoscirjan/aurelia-google-recaptcha/blob/master/doc/recaptcha-v2.md)
   * [Invisible](https://github.com/dragoscirjan/aurelia-google-recaptcha/blob/master/doc/recaptcha-v2-invisible.md)
+
+## Index
+
+<!-- TOC -->
+
+- [reCAPTCHA v3](#recaptcha-v3)
+    - [Index](#index)
+    - [Additional Options](#additional-options)
+    - [Events](#events)
+    - [Usage](#usage)
+
+<!-- /TOC -->
 
 ## Additional Options
 
@@ -34,6 +38,7 @@ Please also check
 |---|---|
 | `grecaptcha:execute:{RECAPTCHA_ID}` | Trigger execution of the recaptcha. |
 
+##Usage
 
 In `src/component.html` use
 
