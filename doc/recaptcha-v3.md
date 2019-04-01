@@ -21,6 +21,8 @@ Please also check
 
 > NOTE: All [generic options](https://github.com/dragoscirjan/aurelia-google-recaptcha#generic-options) are still valid.
 
+> NOTE: As far as we read, all [reCAPTCHA invisible options](https://github.com/dragoscirjan/aurelia-google-recaptcha/blob/master/doc/recaptcha-v2.md) are still valid, yet some may not work.
+
 | Option | Type | Default | Description |
 |---|---|---|---|
 | `action` | String | `homepage` | _Optional._ (Action name)(https://developers.google.com/recaptcha/docs/v3). Use to identify the action or page recaptcha validates. Can be: `homepage`, `login`, `social`, `e-commerce` and many others. May only contain alphanumeric characters and slashes, and must not be user-specific.  |
@@ -45,6 +47,14 @@ In `src/component.html` use
     value.bind="recaptchaToken"
 ></recaptcha>
 <button click.trigger="customExecute()">Trigger</button>
+<!-- or... trigger automatically -->
+<recaptcha
+    action="website/products"
+    auto="1"
+    expires="20m"
+    sitekey="YOUR_SITE_KEY"
+    value.bind="recaptchaToken"
+></recaptcha>
 ```
 
 In `src/component.js` use

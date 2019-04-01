@@ -1,8 +1,28 @@
-### V2 (Invisible)
+# reCAPTCHA v2
+
+##  Invisible Implementation
+
+[reCAPTCHA v2 Invisible](https://developers.google.com/recaptcha/docs/invisible) is an invisible component, which will evaluate automatically or by custom trigger and return a score for each request without user friction (use does not need to interract with the plugin).
+
+<!-- TOC -->
+
+- [reCAPTCHA v2](#recaptcha-v2)
+    - [Invisible Implementation](#invisible-implementation)
+            - [Additional Options](#additional-options)
+            - [Events](#events)
+
+<!-- /TOC -->
+
+Please also check
+
+* [reCAPTCHA v3](https://github.com/dragoscirjan/aurelia-google-recaptcha/blob/master/doc/recaptcha-v3.md)
+* reCAPTCHA v2
+  * [Checkbox](https://github.com/dragoscirjan/aurelia-google-recaptcha/blob/master/doc/recaptcha-v2.md)
+  * Invisible
 
 #### Additional Options
 
-> NOTE: All options from `<recaptcha-v2>` are still valid, however some may not work. Please check [Google Recaptcha Invisible documentation](https://developers.google.com/recaptcha/docs/invisible).
+> NOTE: All [generic options](https://github.com/dragoscirjan/aurelia-google-recaptcha#generic-options) as well as [reCAPTCHA checkbox options](https://github.com/dragoscirjan/aurelia-google-recaptcha/blob/master/doc/recaptcha-v2.md) are still valid, yet some may not work.
 
 | Option | Type | Default | Description |
 |---|---|---|---|
@@ -30,6 +50,14 @@ In `src/component.html` use
 ></recaptcha-v2-invisible>
 <button click.trigger="customReset()">Reset</button>
 <button click.trigger="customExecute()">Trigger</button>
+
+<!-- If interested in a callable custom callback -->
+<recaptcha-v2-invisible
+    callback.call="callableCustomCallback($event)"
+    sitekey="YOUR_SITE_KEY"
+    size="invisible"
+    value.bind="recaptchaToken"
+></recaptcha-v2-invisible>
 
 <!-- If interested in a custom callback -->
 <recaptcha-v2-invisible
@@ -68,7 +96,7 @@ export class Component {
         /**
          * Add this, only if you desire to use a custom callback.
          */
-        // window.customCallback = () => {
+        // window.customCallback = ($event) => {
         //     console.log(this.recaptchaToken);
         // };
     }
@@ -86,5 +114,13 @@ export class Component {
     customExecute() {
         this.events.publish(`grecaptcha:execute:${this.tokenId}`);
     }
+
+    /**
+     * Add this only if you desire a callable custom callback.
+     * Even though we suppot the string version as well, we recommend using this one for better integration with Aurelia.
+     */
+    // callableCustomCallback($event) {
+    //     console.log($event.token, this.recaptchaToken);
+    // }
 }
 ```

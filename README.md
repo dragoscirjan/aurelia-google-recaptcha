@@ -91,9 +91,9 @@ In your HTML add one of the components as presented in the [Overview](#overview)
 | Option | Type | Default | Description |
 |---|---|---|---|
 | `auto` | Boolean | `false` | _Optional._ Trigger an auto-validate loop interval, keeping the recaptcha validated. |
-| `id` | String |   | _Optional._ _Two Way_ bindable value, announcing recaptcha component ID. |
+| `id` | String |   | _Optional._ _Two Way_ _bindable_ value, announcing recaptcha component ID. |
 | `sitekey` | String  |   | _Optional._ Your can also mention the sitekey inline within code. This value will override the one from config. |
-| `value` | String |   | _Optional._ _Two Way_ bindable value, announcing recaptcha result outside of the component. |
+| `value` | String |   | _Optional._ _Two Way_ _bindable_ value, announcing recaptcha result outside of the component. |
 
 ## Overview
 
