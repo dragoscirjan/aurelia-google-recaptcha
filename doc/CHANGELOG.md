@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Preparing for bug fixes.
+
+## [0.0.4] - 2019-04-XX
+### Added
+- Added plugin configuration. `sitekey` attribute can be ignored now.
+- Implemented _callable_ methods. `*callback` can be used as `*callback.call="callbackMethod($event)"` as well.
+- Better documentation.
+
 ## [0.0.3] - 2019-03-25
 ### Added
 - Re-implemented [v2](https://developers.google.com/recaptcha/docs/display)
@@ -16,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - 1st public release.
 
-[Unreleased]: https://github.com/dragoscirjan/aurelia-content-loader/compare/v0.0.3...HEAD
+[Unreleased]: https://github.com/dragoscirjan/aurelia-content-loader/compare/v0.0.4...HEAD
+[0.0.4]: https://github.com/dragoscirjan/aurelia-content-loader/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/dragoscirjan/aurelia-content-loader/compare/v0.0.1...v0.0.3
 [0.0.1]: https://github.com/dragoscirjan/aurelia-content-loader/releases/tag/v0.0.1
