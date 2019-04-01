@@ -68,6 +68,7 @@ In `src/component.js` use
 ```javascript
 import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import {ValidationController, ValidationRules} from 'aurelia-validation';
 
 @inject(EventAggregator)
 export class Component {
@@ -77,18 +78,67 @@ export class Component {
      */
     // tokenId = 'MY_TOKEN_ID';
 
+    recaptchaToken = null;
+
     /**
      * Constructor
      */
-    constructor(events) {
+    constructor(events, validation) {
         this.events = events;
+        this.validation = validation;
+
+        // Using ValidationController is not mandatory.
+        ValidationRules
+            .ensure('response').required().withMessage('Please verify the recaptcha.')
+            .on(this);
+        // this.validationController.addRenderer(...);
     }
 
     /**
-     * Use this method to trigger the recaptcha execution.
+     * Form reset callable.
      */
-    customExecute() {
+    reset() {
+        this.events.publish(`grecaptcha:reset:${this.tokenId}`);
+    }
+
+    /**
+     * Form submit callable.
+     */
+    async submit() {
+        // if `auto` option is not enabled, calling execute event is required
+        // await this.recaptchaExecute();
+
+        try {
+            const result = this.validation.validate();
+            if (!result.valid) return;
+            // submit your form data
+        } catch (e) {
+            // hanlde possible errors
+        }
+    }
+
+    /**
+     * Manually trigger reCAPTCHA execute event.
+     */
+    recaptchaExecute() {
         this.events.publish(`grecaptcha:execute:${this.tokenId}`);
+
+        return new Promise((resolve, reject) {
+            // constantly check for token
+            const interval = setInterval(() => {
+                if (this.recaptchaToken) {
+                    resolve();
+                    clearInterval(interval);
+                }
+            }, 500);
+            // to the above check for a certain amount of time, then fail
+            setTimeout(() => {
+                if (interval) {
+                    clearInterval(interval);
+                    reject();
+                }
+            }, 20000);
+        });
     }
 }
 ```

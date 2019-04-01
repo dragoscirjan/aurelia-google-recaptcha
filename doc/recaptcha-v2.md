@@ -21,9 +21,8 @@ Please also check
     - [Additional Options](#additional-options)
     - [Events](#events)
     - [Usage](#usage)
-        - [HTML](#html)
-            - [Using Callbacks (callable)](#using-callbacks-callable)
-            - [Using Callbacks (string)](#using-callbacks-string)
+        - [Using Callbacks (callable)](#using-callbacks-callable)
+        - [Using Callbacks (string)](#using-callbacks-string)
 
 <!-- /TOC -->
 
@@ -46,8 +45,6 @@ Please also check
 
 ## Usage
 
-### HTML
-
 In `src/component.html` use
 
 ```html
@@ -55,29 +52,9 @@ In `src/component.html` use
 <recaptcha-v2
     id.bind="tokenId"
     sitekey="YOUR_SITE_KEY"
-    value.bind="recaptchaToken"
+    value.bind="recaptchaToken & validate"
 ></recaptcha-v2>
 <button click.trigger="customReset()">Reset</button>
-```
-
-#### Using Callbacks (callable)
-
-```html
-<recaptcha-v2
-    sitekey="YOUR_SITE_KEY"
-    value.bind="bindedRecaptchaToken"
-    callback.call="callableCustomCallback($event)"
-></recaptcha-v2>
-```
-
-#### Using Callbacks (string)
-
-```html
-<recaptcha-v2
-    sitekey="YOUR_SITE_KEY"
-    value.bind="recaptchaToken"
-    callback="customCallback"
-></recaptcha-v2>
 ```
 
 In `src/component.js` use
@@ -85,6 +62,7 @@ In `src/component.js` use
 ```javascript
 import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import {ValidationController, ValidationRules} from 'aurelia-validation';
 
 @inject(EventAggregator)
 export class Component {
@@ -94,41 +72,102 @@ export class Component {
      */
     // tokenId = 'MY_TOKEN_ID';
 
+    recaptchaToken = null;
+
     /**
      * Constructor
      */
-    constructor(events) {
+    constructor(events, validation) {
         this.events = events;
+        this.validation = validation;
+
+        // Using ValidationController is not mandatory.
+        ValidationRules
+            .ensure('response').required().withMessage('Please verify the recaptcha.')
+            .on(this);
+        // this.validationController.addRenderer(...);
     }
 
     /**
-     * Aurelia Bind Handler
+     * Form reset callable.
      */
-    bind(...args) {
-        /**
-         * Add this, only if you desire to use a custom callback.
-         */
-        // window.customCallback = () => {
-        //     console.log(this.recaptchaToken);
-        // };
-    }
-
-    /**
-     * Use this method to reset the recaptcha tag after you submited the token.
-     */
-    customReset() {
+    reset() {
         this.events.publish(`grecaptcha:reset:${this.tokenId}`);
     }
 
     /**
-     * Add this only if you desire a binded custom callback.
-     * Even though we suppot the string version as well, we recommend using this one for better integration with Aurelia.
+     * Form submit callable.
      */
-    // callableCustomCallback($event) {
-    //     console.log($event.token, this.bindedRecaptchaToken);
-    // }
+    async submit() {
+        try {
+            const result = this.validation.validate();
+            if (!result.valid) return;
+            // submit your form data
+        } catch (e) {
+            // hanlde possible errors
+        }
+    }
 }
 ```
 
+### Using Callbacks (callable)
+
+Considering `@bindable` mechanism used for `value` field, we do not recommend having additional callbacks on availability 
+of the reCAPTCHA value, however we are making this available.
+
+```html
+<recaptcha-v2
+    sitekey="YOUR_SITE_KEY"
+    value.bind="recaptchaToken"
+    callback.call="customCallback($event)"
+></recaptcha-v2>
+```
+
+```js
+// ...
+
+export class Component {
+    // ...
+    
+    /**
+     * Add this if you desire a custom callback.
+     */
+    customCallback($event) {
+        console.log($event.token, this.bindedRecaptchaToken);
+    }
+
+    // ...
+}
+```
+### Using Callbacks (string)
+
+Even though we suppot the string version as well, we recommend using this one for better integration with Aurelia.
+
+```html
+<recaptcha-v2
+    sitekey="YOUR_SITE_KEY"
+    value.bind="recaptchaToken"
+    callback="customCallback"
+></recaptcha-v2>
+```
+
+```js
+// ...
+
+export class Component {
+    // ...
+
+    /**
+     * Initialize your customCallback method within bind handler.
+     */
+    bind(...args) {
+        window.customCallback = ($event) => {
+            console.log($event.token, this.recaptchaToken);
+        };
+    }
+
+    // ...
+}
+```
 
 

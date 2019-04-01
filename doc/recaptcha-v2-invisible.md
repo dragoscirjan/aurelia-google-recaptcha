@@ -21,9 +21,8 @@ Please also check
     - [Additional Options](#additional-options)
     - [Events](#events)
     - [Usage](#usage)
-        - [HTML](#html)
-            - [Using Callbacks (callable)](#using-callbacks-callable)
-            - [Using Callbacks (string)](#using-callbacks-string)
+        - [Using Callbacks (callable)](#using-callbacks-callable)
+        - [Using Callbacks (string)](#using-callbacks-string)
 
 <!-- /TOC -->
 
@@ -47,8 +46,6 @@ Please also check
 
 ## Usage
 
-### HTML
-
 In `src/component.html` use
 
 ```html
@@ -62,33 +59,12 @@ In `src/component.html` use
 <button click.trigger="customExecute()">Trigger</button>
 ```
 
-#### Using Callbacks (callable)
-
-```html
-<recaptcha-v2-invisible
-    callback.call="callableCustomCallback($event)"
-    sitekey="YOUR_SITE_KEY"
-    size="invisible"
-    value.bind="recaptchaToken"
-></recaptcha-v2-invisible>
-```
-
-#### Using Callbacks (string)
-
-```html
-<recaptcha-v2-invisible
-    callback="customCallback"
-    sitekey="YOUR_SITE_KEY"
-    size="invisible"
-    value.bind="recaptchaToken"
-></recaptcha-v2-invisible>
-````
-
 In `src/component.js` use
 
 ```javascript
 import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import {ValidationController, ValidationRules} from 'aurelia-validation';
 
 @inject(EventAggregator)
 export class Component {
@@ -98,45 +74,76 @@ export class Component {
      */
     // tokenId = 'MY_TOKEN_ID';
 
+    recaptchaToken = null;
+
     /**
      * Constructor
      */
-    constructor(events) {
+    constructor(events, validation) {
         this.events = events;
+        this.validation = validation;
+
+        // Using ValidationController is not mandatory.
+        ValidationRules
+            .ensure('response').required().withMessage('Please verify the recaptcha.')
+            .on(this);
+        // this.validationController.addRenderer(...);
     }
 
     /**
-     * Aurelia Bind Handler
+     * Form reset callable.
      */
-    bind(...args) {
-        /**
-         * Add this, only if you desire to use a custom callback.
-         */
-        // window.customCallback = ($event) => {
-        //     console.log(this.recaptchaToken);
-        // };
-    }
-
-    /**
-     * Use this method to reset the recaptcha tag after you submited the token.
-     */
-    customReset() {
+    reset() {
         this.events.publish(`grecaptcha:reset:${this.tokenId}`);
     }
 
     /**
-     * Use this method to trigger the recaptcha execution.
+     * Form submit callable.
      */
-    customExecute() {
-        this.events.publish(`grecaptcha:execute:${this.tokenId}`);
+    async submit() {
+        // if `auto` option is not enabled, calling execute event is required
+        // await this.recaptchaExecute();
+
+        try {
+            const result = this.validation.validate();
+            if (!result.valid) return;
+            // submit your form data
+        } catch (e) {
+            // hanlde possible errors
+        }
     }
 
     /**
-     * Add this only if you desire a callable custom callback.
-     * Even though we suppot the string version as well, we recommend using this one for better integration with Aurelia.
+     * Manually trigger reCAPTCHA execute event.
      */
-    // callableCustomCallback($event) {
-    //     console.log($event.token, this.recaptchaToken);
-    // }
+    recaptchaExecute() {
+        this.events.publish(`grecaptcha:execute:${this.tokenId}`);
+
+        return new Promise((resolve, reject) {
+            // constantly check for token
+            const interval = setInterval(() => {
+                if (this.recaptchaToken) {
+                    resolve();
+                    clearInterval(interval);
+                }
+            }, 500);
+            // to the above check for a certain amount of time, then fail
+            setTimeout(() => {
+                if (interval) {
+                    clearInterval(interval);
+                    reject();
+                }
+            }, 20000);
+        });
+    }
 }
 ```
+
+### Using Callbacks (callable)
+
+Please read [reCAPTCHA v2 Checkbox](https://github.com/dragoscirjan/aurelia-google-recaptcha/blob/master/doc/recaptcha-v2.md#using-callbacks-callable) documentation. Nothing changes here.
+
+### Using Callbacks (string)
+
+Please read [reCAPTCHA v2 Checkbox](https://github.com/dragoscirjan/aurelia-google-recaptcha/blob/master/doc/recaptcha-v2.md#using-callbacks-string) documentation. Nothing changes here.
+
