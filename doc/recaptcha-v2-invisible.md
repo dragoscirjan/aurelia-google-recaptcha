@@ -21,6 +21,9 @@ Please also check
     - [Additional Options](#additional-options)
     - [Events](#events)
     - [Usage](#usage)
+        - [HTML](#html)
+            - [Using Callbacks (callable)](#using-callbacks-callable)
+            - [Using Callbacks (string)](#using-callbacks-string)
 
 <!-- /TOC -->
 
@@ -44,10 +47,11 @@ Please also check
 
 ## Usage
 
+### HTML
+
 In `src/component.html` use
 
 ```html
-<!-- If interested in value only. -->
 <recaptcha-v2-invisible
     id.bind="tokenId"
     sitekey="YOUR_SITE_KEY"
@@ -56,23 +60,29 @@ In `src/component.html` use
 ></recaptcha-v2-invisible>
 <button click.trigger="customReset()">Reset</button>
 <button click.trigger="customExecute()">Trigger</button>
+```
 
-<!-- If interested in a callable custom callback -->
+#### Using Callbacks (callable)
+
+```html
 <recaptcha-v2-invisible
     callback.call="callableCustomCallback($event)"
     sitekey="YOUR_SITE_KEY"
     size="invisible"
     value.bind="recaptchaToken"
 ></recaptcha-v2-invisible>
+```
 
-<!-- If interested in a custom callback -->
+#### Using Callbacks (string)
+
+```html
 <recaptcha-v2-invisible
     callback="customCallback"
     sitekey="YOUR_SITE_KEY"
     size="invisible"
     value.bind="recaptchaToken"
 ></recaptcha-v2-invisible>
-```
+````
 
 In `src/component.js` use
 

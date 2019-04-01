@@ -21,6 +21,9 @@ Please also check
     - [Additional Options](#additional-options)
     - [Events](#events)
     - [Usage](#usage)
+        - [HTML](#html)
+            - [Using Callbacks (callable)](#using-callbacks-callable)
+            - [Using Callbacks (string)](#using-callbacks-string)
 
 <!-- /TOC -->
 
@@ -43,6 +46,8 @@ Please also check
 
 ## Usage
 
+### HTML
+
 In `src/component.html` use
 
 ```html
@@ -53,15 +58,21 @@ In `src/component.html` use
     value.bind="recaptchaToken"
 ></recaptcha-v2>
 <button click.trigger="customReset()">Reset</button>
+```
 
-<!-- If interested in a callable custom callback -->
+#### Using Callbacks (callable)
+
+```html
 <recaptcha-v2
     sitekey="YOUR_SITE_KEY"
     value.bind="bindedRecaptchaToken"
     callback.call="callableCustomCallback($event)"
 ></recaptcha-v2>
+```
 
-<!-- If interested in a custom callback -->
+#### Using Callbacks (string)
+
+```html
 <recaptcha-v2
     sitekey="YOUR_SITE_KEY"
     value.bind="recaptchaToken"

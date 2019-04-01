@@ -52,6 +52,7 @@ In `src/component.html` use
     value.bind="recaptchaToken"
 ></recaptcha>
 <button click.trigger="customExecute()">Trigger</button>
+
 <!-- or... trigger automatically -->
 <recaptcha
     action="website/products"
