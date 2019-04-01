@@ -1,15 +1,32 @@
-### V3
+# reCAPTCHA v3
 
-#### Additional Options
+[reCAPTCHA v3](https://developers.google.com/recaptcha/docs/v3) is an invisible component, which will evaluate automatically or by custom trigger and return a score for each request without user friction (use does not need to interract with the plugin).
 
-> NOTE: All options from `<recaptcha-v2>` are still valid, however some may not work. Please check [Google Recaptcha Invisible documentation](https://developers.google.com/recaptcha/docs/invisible).
+<!-- TOC -->
+
+- [reCAPTCHA v3](#recaptcha-v3)
+    - [Additional Options](#additional-options)
+    - [Events](#events)
+
+<!-- /TOC -->
+
+Please also check
+
+* reCAPTCHA v3
+* reCAPTCHA v2
+  * [Checkbox](https://github.com/dragoscirjan/aurelia-google-recaptcha/blob/master/doc/recaptcha-v2.md)
+  * [Invisible](https://github.com/dragoscirjan/aurelia-google-recaptcha/blob/master/doc/recaptcha-v2-invisible.md)
+
+## Additional Options
+
+> NOTE: All [generic options](https://github.com/dragoscirjan/aurelia-google-recaptcha#generic-options) are still valid.
 
 | Option | Type | Default | Description |
 |---|---|---|---|
 | `action` | String | `homepage` | _Optional._ (Action name)(https://developers.google.com/recaptcha/docs/v3). Use to identify the action or page recaptcha validates. Can be: `homepage`, `login`, `social`, `e-commerce` and many others. May only contain alphanumeric characters and slashes, and must not be user-specific.  |
 | `expires` | String  | `1m` | _Optional._ Trigger an auto-validate loop interval, keeping the recaptcha validated. Expiration values are parsed with (parse-duration)[https://github.com/jkroso/parse-duration] |
 
-#### Events
+## Events
 
 | Event | Description |
 |---|---|

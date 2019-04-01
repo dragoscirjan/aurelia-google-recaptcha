@@ -32,7 +32,7 @@ Plugin is inspired by [Jeremy Danyow](http://stackoverflow.com/users/725866/jere
     - [Audience](#audience)
     - [Getting Started](#getting-started)
     - [Usage](#usage)
-    - [Options](#options)
+        - [Generic Options](#generic-options)
     - [Overview](#overview)
     - [Development](#development)
     - [Issues](#issues)
@@ -80,11 +80,13 @@ aurelia.use.plugin(PLATFORM.moduleName('aurelia-google-recaptcha'), config => {
 });
 ```
 
-## Options
+In your HTML add one of the components as presented in the [Overview](#overview) section.
 
 ```html
 <recaptcha-* ...></recaptcha-*>
 ```
+
+### Generic Options
 
 | Option | Type | Default | Description |
 |---|---|---|---|
@@ -97,11 +99,12 @@ aurelia.use.plugin(PLATFORM.moduleName('aurelia-google-recaptcha'), config => {
 
 As [Google](https://google.com) will tell, you, to start using [reCAPTCHA](https://developers.google.com/recaptcha/intro), you need to sign up for an API key pair for your site. Please read the documentation on [reCAPTCHA](https://developers.google.com/recaptcha/intro) website to learn how to obtain the API keys.
 
-From the versions presented by [reCAPTCHA](https://developers.google.com/recaptcha/intro), we chose to port the following:
-* [reCAPTCHA v3](https://github.com/dragoscirjan/aurelia-google-recaptcha/docs/recaptcha-v3.md)
+From the versions presented by [reCAPTCHA](https://developers.google.com/recaptcha/intro), we chose to implement, within our [Aurelia](https://aurelia.io) plugin, the following:
+
+* [reCAPTCHA v3](https://github.com/dragoscirjan/aurelia-google-recaptcha/blob/master/doc/recaptcha-v3.md)
 * reCAPTCHA v2
-  * [Checkbox](https://github.com/dragoscirjan/aurelia-google-recaptcha/docs/recaptcha-v2.md)
-  * [Invisible](https://github.com/dragoscirjan/aurelia-google-recaptcha/docs/recaptcha-v2-invisible.md)
+  * [Checkbox](https://github.com/dragoscirjan/aurelia-google-recaptcha/blob/master/doc/recaptcha-v2.md)
+  * [Invisible](https://github.com/dragoscirjan/aurelia-google-recaptcha/blob/master/doc/recaptcha-invisible.md)
 
 For [verifying the user's response](https://developers.google.com/recaptcha/docs/verify) please read the reCAPTCHA documentation.
 
