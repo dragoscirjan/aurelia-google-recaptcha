@@ -16,13 +16,13 @@ Please also check
 <!-- TOC -->
 
 - [reCAPTCHA v2](#recaptcha-v2)
-    - [Invisible Implementation](#invisible-implementation)
-    - [Index](#index)
-    - [Additional Options](#additional-options)
-    - [Events](#events)
-    - [Usage](#usage)
-        - [Using Callbacks (callable)](#using-callbacks-callable)
-        - [Using Callbacks (string)](#using-callbacks-string)
+  - [Invisible Implementation](#invisible-implementation)
+  - [Index](#index)
+  - [Additional Options](#additional-options)
+  - [Events](#events)
+  - [Usage](#usage)
+    - [Using Callbacks (callable)](#using-callbacks-callable)
+    - [Using Callbacks (string)](#using-callbacks-string)
 
 <!-- /TOC -->
 
@@ -66,7 +66,7 @@ import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import {ValidationController, ValidationRules} from 'aurelia-validation';
 
-@inject(EventAggregator)
+@inject(EventAggregator, ValidationController)
 export class Component {
     /**
      * If set, it will use the token ID you give to the variable, otherwise it will 

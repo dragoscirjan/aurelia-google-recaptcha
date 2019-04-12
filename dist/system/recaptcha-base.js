@@ -1,9 +1,9 @@
 "use strict";
 
-System.register(["aurelia-framework", "aurelia-event-aggregator", "nanoid", "./config"], function (_export, _context) {
+System.register(["amaranth-utils", "aurelia-event-aggregator", "aurelia-framework", "nanoid", "./config"], function (_export, _context) {
   "use strict";
 
-  var bindable, bindingMode, inject, noView, EventAggregator, nanoid, Config, _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _class3, _temp, getHash, GR, RecaptchaBase;
+  var className, EventAggregator, bindable, bindingMode, inject, LogManager, noView, nanoid, Config, _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _class3, _temp, getHash, GR, RecaptchaBase;
 
   function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
@@ -27,13 +27,16 @@ System.register(["aurelia-framework", "aurelia-event-aggregator", "nanoid", "./c
   });
 
   return {
-    setters: [function (_aureliaFramework) {
+    setters: [function (_amaranthUtils) {
+      className = _amaranthUtils.className;
+    }, function (_aureliaEventAggregator) {
+      EventAggregator = _aureliaEventAggregator.EventAggregator;
+    }, function (_aureliaFramework) {
       bindable = _aureliaFramework.bindable;
       bindingMode = _aureliaFramework.bindingMode;
       inject = _aureliaFramework.inject;
+      LogManager = _aureliaFramework.LogManager;
       noView = _aureliaFramework.noView;
-    }, function (_aureliaEventAggregator) {
-      EventAggregator = _aureliaEventAggregator.EventAggregator;
     }, function (_nanoid) {
       nanoid = _nanoid.default;
     }, function (_config) {
@@ -68,6 +71,7 @@ System.register(["aurelia-framework", "aurelia-event-aggregator", "nanoid", "./c
           this.element = element;
           this.config = config;
           this.events = events;
+          this.logger = LogManager.getLogger(className(this));
         }
 
         var _proto = RecaptchaBase.prototype;
@@ -98,6 +102,7 @@ System.register(["aurelia-framework", "aurelia-event-aggregator", "nanoid", "./c
             script.id = id;
             script.async = true;
             script.defer = true;
+            this.logger.debug('Loading Script...', script);
             document.head.appendChild(script);
           }
 
@@ -113,6 +118,8 @@ System.register(["aurelia-framework", "aurelia-event-aggregator", "nanoid", "./c
 
           var eventName = "grecaptcha:execute:" + this.id;
           this.__auevents__[eventName] = this.events.subscribe(eventName, function () {
+            _this.logger.debug("Triggered " + eventName);
+
             _this.recaptchaExecute();
           });
         };
@@ -130,16 +137,6 @@ System.register(["aurelia-framework", "aurelia-event-aggregator", "nanoid", "./c
 
         _proto.removeAutoTriggerExecuteEvent = function removeAutoTriggerExecuteEvent() {
           clearInterval(this.__grecaptcha_auto_exec_interval__);
-        };
-
-        _proto.unloadScript = function unloadScript(id) {
-          if (!document.querySelectorAll("[data-script=" + id + "]").length && document.querySelector("#" + id)) {
-            document.querySelector("#" + id).remove();
-          }
-
-          if (!document.querySelectorAll('[data-script]').length && typeof window[GR] !== 'undefined') {
-            delete window[GR];
-          }
         };
 
         _proto.unregisterEvents = function unregisterEvents() {

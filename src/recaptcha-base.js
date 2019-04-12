@@ -8,8 +8,9 @@
  * @license   https://github.com/ITMCdev/aurelia-google-recaptcha/blob/master/LICENSE MIT License
  */
 
-import { bindable, bindingMode, inject, noView } from 'aurelia-framework';
+import { className } from 'amaranth-utils';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { bindable, bindingMode, inject, LogManager, noView } from 'aurelia-framework';
 import nanoid from 'nanoid';
 
 import { Config } from './config';
@@ -66,6 +67,8 @@ export class RecaptchaBase {
     this.element = element;
     this.config = config;
     this.events = events;
+
+    this.logger = LogManager.getLogger(className(this));
   }
 
   /**
@@ -109,6 +112,7 @@ export class RecaptchaBase {
       script.id = id;
       script.async = true;
       script.defer = true;
+      this.logger.debug('Loading Script...', script);
       document.head.appendChild(script);
     }
     this.element.setAttribute('data-script', this.getScriptId());
@@ -127,6 +131,7 @@ export class RecaptchaBase {
   registerExecuteEvent() {
     const eventName = `grecaptcha:execute:${this.id}`;
     this.__auevents__[eventName] = this.events.subscribe(eventName, () => {
+      this.logger.debug(`Triggered ${eventName}`);
       this.recaptchaExecute();
     });
   }
@@ -151,19 +156,19 @@ export class RecaptchaBase {
     clearInterval(this.__grecaptcha_auto_exec_interval__);
   }
 
-  /**
-   * Unload a <script> by a given id
-   * @param {String} id
-   * @deprecated
-   */
-  unloadScript(id) {
-    if (!document.querySelectorAll(`[data-script=${id}]`).length && document.querySelector(`#${id}`)) {
-      document.querySelector(`#${id}`).remove();
-    }
-    if (!document.querySelectorAll('[data-script]').length && typeof window[GR] !== 'undefined') {
-      delete window[GR];
-    }
-  }
+  // /**
+  //  * Unload a <script> by a given id
+  //  * @param {String} id
+  //  * @deprecated
+  //  */
+  // unloadScript(id) {
+  //   if (!document.querySelectorAll(`[data-script=${id}]`).length && document.querySelector(`#${id}`)) {
+  //     document.querySelector(`#${id}`).remove();
+  //   }
+  //   if (!document.querySelectorAll('[data-script]').length && typeof window[GR] !== 'undefined') {
+  //     delete window[GR];
+  //   }
+  // }
 
   /**
    * Unregister an event.

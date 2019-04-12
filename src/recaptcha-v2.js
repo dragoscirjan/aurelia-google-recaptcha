@@ -116,6 +116,7 @@ export class RecaptchaV2 extends RecaptchaBase {
   registerResetEvent() {
     const eventName = `grecaptcha:reset:${this.id}`;
     this.__auevents__[eventName] = this.events.subscribe(eventName, () => {
+      this.logger.debug(`Triggered ${eventName}`);
       grecaptcha && grecaptcha.reset && grecaptcha.reset(this.widgetId);
       this.value = null;
     });
@@ -139,6 +140,7 @@ export class RecaptchaV2 extends RecaptchaBase {
     const callback = () => {
       if (this.widgetId !== null) {
         this.value = grecaptcha.getResponse(this.widgetId);
+        this.logger.debug('reCAPTCHA callback', this.widgetId, this.value);
       }
       if (this.callback) {
         if (typeof this.callback === 'function') {
@@ -151,6 +153,7 @@ export class RecaptchaV2 extends RecaptchaBase {
     };
     const errorCallback = () => {
       this.value = undefined;
+      this.logger.debug('reCAPTCHA error-callback', this.widgetId);
       if (this.errorCallback) {
         if (typeof this.errorCallback === 'function') {
           return this.callback(new RecaptchaError(this, this.widgetId));
@@ -161,7 +164,8 @@ export class RecaptchaV2 extends RecaptchaBase {
       }
     };
     const expiredCallback = () => {
-      this.value = null;
+      this.value = undefined;
+      this.logger.debug('reCAPTCHA expired-callback', this.widgetId);
       if (this.expiredCallback) {
         if (typeof this.expiredCallback === 'function') {
           return this.expiredCallback(new RecaptchaExpired(this, this.widgetId));

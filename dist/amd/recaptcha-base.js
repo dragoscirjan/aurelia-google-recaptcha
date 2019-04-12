@@ -1,4 +1,4 @@
-define(["exports", "aurelia-framework", "aurelia-event-aggregator", "nanoid", "./config"], function (_exports, _aureliaFramework, _aureliaEventAggregator, _nanoid, _config) {
+define(["exports", "amaranth-utils", "aurelia-event-aggregator", "aurelia-framework", "nanoid", "./config"], function (_exports, _amaranthUtils, _aureliaEventAggregator, _aureliaFramework, _nanoid, _config) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -46,6 +46,7 @@ define(["exports", "aurelia-framework", "aurelia-event-aggregator", "nanoid", ".
       this.element = element;
       this.config = config;
       this.events = events;
+      this.logger = _aureliaFramework.LogManager.getLogger((0, _amaranthUtils.className)(this));
     }
 
     var _proto = RecaptchaBase.prototype;
@@ -76,6 +77,7 @@ define(["exports", "aurelia-framework", "aurelia-event-aggregator", "nanoid", ".
         script.id = id;
         script.async = true;
         script.defer = true;
+        this.logger.debug('Loading Script...', script);
         document.head.appendChild(script);
       }
 
@@ -91,6 +93,8 @@ define(["exports", "aurelia-framework", "aurelia-event-aggregator", "nanoid", ".
 
       var eventName = "grecaptcha:execute:" + this.id;
       this.__auevents__[eventName] = this.events.subscribe(eventName, function () {
+        _this.logger.debug("Triggered " + eventName);
+
         _this.recaptchaExecute();
       });
     };
@@ -108,16 +112,6 @@ define(["exports", "aurelia-framework", "aurelia-event-aggregator", "nanoid", ".
 
     _proto.removeAutoTriggerExecuteEvent = function removeAutoTriggerExecuteEvent() {
       clearInterval(this.__grecaptcha_auto_exec_interval__);
-    };
-
-    _proto.unloadScript = function unloadScript(id) {
-      if (!document.querySelectorAll("[data-script=" + id + "]").length && document.querySelector("#" + id)) {
-        document.querySelector("#" + id).remove();
-      }
-
-      if (!document.querySelectorAll('[data-script]').length && typeof window[GR] !== 'undefined') {
-        delete window[GR];
-      }
     };
 
     _proto.unregisterEvents = function unregisterEvents() {

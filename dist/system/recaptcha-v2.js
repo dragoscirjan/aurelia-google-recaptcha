@@ -118,6 +118,8 @@ System.register(["aurelia-framework", "./recaptcha-base"], function (_export, _c
 
           var eventName = "grecaptcha:reset:" + this.id;
           this.__auevents__[eventName] = this.events.subscribe(eventName, function () {
+            _this2.logger.debug("Triggered " + eventName);
+
             grecaptcha && grecaptcha.reset && grecaptcha.reset(_this2.widgetId);
             _this2.value = null;
           });
@@ -141,6 +143,8 @@ System.register(["aurelia-framework", "./recaptcha-base"], function (_export, _c
           var callback = function callback() {
             if (_this4.widgetId !== null) {
               _this4.value = grecaptcha.getResponse(_this4.widgetId);
+
+              _this4.logger.debug('reCAPTCHA callback', _this4.widgetId, _this4.value);
             }
 
             if (_this4.callback) {
@@ -157,6 +161,8 @@ System.register(["aurelia-framework", "./recaptcha-base"], function (_export, _c
           var errorCallback = function errorCallback() {
             _this4.value = undefined;
 
+            _this4.logger.debug('reCAPTCHA error-callback', _this4.widgetId);
+
             if (_this4.errorCallback) {
               if (typeof _this4.errorCallback === 'function') {
                 return _this4.callback(new RecaptchaError(_this4, _this4.widgetId));
@@ -169,7 +175,9 @@ System.register(["aurelia-framework", "./recaptcha-base"], function (_export, _c
           };
 
           var expiredCallback = function expiredCallback() {
-            _this4.value = null;
+            _this4.value = undefined;
+
+            _this4.logger.debug('reCAPTCHA expired-callback', _this4.widgetId);
 
             if (_this4.expiredCallback) {
               if (typeof _this4.expiredCallback === 'function') {

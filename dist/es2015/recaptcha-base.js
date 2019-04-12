@@ -3,9 +3,11 @@
 exports.__esModule = true;
 exports.RecaptchaBase = exports.GR = exports.getHash = void 0;
 
-var _aureliaFramework = require("aurelia-framework");
+var _amaranthUtils = require("amaranth-utils");
 
 var _aureliaEventAggregator = require("aurelia-event-aggregator");
+
+var _aureliaFramework = require("aurelia-framework");
 
 var _nanoid = _interopRequireDefault(require("nanoid"));
 
@@ -50,6 +52,7 @@ var RecaptchaBase = (_dec = (0, _aureliaFramework.noView)(), _dec2 = (0, _aureli
     this.element = element;
     this.config = config;
     this.events = events;
+    this.logger = _aureliaFramework.LogManager.getLogger((0, _amaranthUtils.className)(this));
   }
 
   var _proto = RecaptchaBase.prototype;
@@ -80,6 +83,7 @@ var RecaptchaBase = (_dec = (0, _aureliaFramework.noView)(), _dec2 = (0, _aureli
       script.id = id;
       script.async = true;
       script.defer = true;
+      this.logger.debug('Loading Script...', script);
       document.head.appendChild(script);
     }
 
@@ -95,6 +99,8 @@ var RecaptchaBase = (_dec = (0, _aureliaFramework.noView)(), _dec2 = (0, _aureli
 
     var eventName = "grecaptcha:execute:" + this.id;
     this.__auevents__[eventName] = this.events.subscribe(eventName, function () {
+      _this.logger.debug("Triggered " + eventName);
+
       _this.recaptchaExecute();
     });
   };
@@ -112,16 +118,6 @@ var RecaptchaBase = (_dec = (0, _aureliaFramework.noView)(), _dec2 = (0, _aureli
 
   _proto.removeAutoTriggerExecuteEvent = function removeAutoTriggerExecuteEvent() {
     clearInterval(this.__grecaptcha_auto_exec_interval__);
-  };
-
-  _proto.unloadScript = function unloadScript(id) {
-    if (!document.querySelectorAll("[data-script=" + id + "]").length && document.querySelector("#" + id)) {
-      document.querySelector("#" + id).remove();
-    }
-
-    if (!document.querySelectorAll('[data-script]').length && typeof window[GR] !== 'undefined') {
-      delete window[GR];
-    }
   };
 
   _proto.unregisterEvents = function unregisterEvents() {
